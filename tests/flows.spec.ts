@@ -5,7 +5,7 @@ test("landing enters functional dashboard", async ({ page }) => {
     .getByRole("link", { name: "ENTER JEEVANDHARA", exact: true })
     .click();
   await expect(
-    page.getByRole("heading", { name: "Good to grow, Pratham." }),
+    page.getByRole("heading", { name: "Good to grow, Anjalee." }),
   ).toBeVisible();
   await expect(page.getByText("₹2,450")).toBeVisible();
   await page.screenshot({
@@ -136,11 +136,11 @@ test("language switch changes major dashboard labels", async ({ page }) => {
   await page.goto("/dashboard");
   await page.getByLabel("Language", { exact: true }).selectOption("kn");
   await expect(
-    page.getByRole("heading", { name: "ನಮಸ್ಕಾರ, Pratham." }),
+    page.getByRole("heading", { name: "ನಮಸ್ಕಾರ, Anjalee." }),
   ).toBeVisible();
   await page.reload();
   await expect(
-    page.getByRole("heading", { name: "ನಮಸ್ಕಾರ, Pratham." }),
+    page.getByRole("heading", { name: "ನಮಸ್ಕಾರ, Anjalee." }),
   ).toBeVisible();
 });
 test("market chart comparison and recommendation", async ({ page }) => {
@@ -191,4 +191,24 @@ test("all routes load without runtime errors or horizontal overflow", async ({
     ).toBeTruthy();
   }
   expect(errors).toEqual([]);
+});
+
+test("saved original demo name migrates without clearing farm changes", async ({
+  page,
+}) => {
+  await page.goto("/dashboard");
+  await expect(
+    page.getByRole("heading", { name: "Good to grow, Anjalee." }),
+  ).toBeVisible();
+  await page.evaluate(() => {
+    const saved = JSON.parse(localStorage.getItem("jeevandhara-v1")!);
+    saved.farm.name = "Pratham";
+    saved.farm.size = 4.5;
+    localStorage.setItem("jeevandhara-v1", JSON.stringify(saved));
+  });
+  await page.reload();
+  await expect(
+    page.getByRole("heading", { name: "Good to grow, Anjalee." }),
+  ).toBeVisible();
+  await expect(page.getByText("4.5 ACRES", { exact: true })).toBeVisible();
 });

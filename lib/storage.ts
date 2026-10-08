@@ -21,6 +21,8 @@ export const storage: StateRepository = {
       throw new Error(
         "Saved demo data is invalid. Load the demo farm to reset it.",
       );
+    // Migrate the original demo name without resetting customized farm records.
+    if (parsed.farm.name === "Pratham") parsed.farm.name = demoState.farm.name;
     return parsed;
   },
   save(state) {
