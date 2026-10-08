@@ -42,6 +42,7 @@ for (const [lang, locale, question] of [
       false,
     );
     await page.locator(".topbar select").selectOption(lang);
+    await page.locator(".content select").selectOption("browser");
     await page.locator(".big-mic").click();
     expect(
       await page.evaluate(() => ({
@@ -77,8 +78,9 @@ test("permission and network failures recover on retry; stop without speech is e
   await page.goto("/voice");
   for (const [error, text] of [
     ["not-allowed", "Microphone permission was denied"],
-    ["network", "could not connect"],
+    ["network", "Device transcription is selected"],
   ]) {
+    await page.locator(".content select").selectOption("browser");
     await page.locator(".big-mic").click();
     await page.evaluate((e) => {
       const s = (window as any).testSpeech;
@@ -88,9 +90,12 @@ test("permission and network failures recover on retry; stop without speech is e
     await expect(page.locator(".error[role=alert]")).toContainText(text);
     await expect(page.locator(".result-list")).toHaveCount(0);
   }
+  await page.locator(".content select").selectOption("browser");
   await page.locator(".big-mic").click();
   await page.locator(".big-mic").click();
-  await expect(page.locator(".error[role=alert]")).toContainText("No final transcript");
+  await expect(page.locator(".error[role=alert]")).toContainText(
+    "No final transcript",
+  );
 });
 test("unsupported recognition still offers an explicitly labelled sample intent demo", async ({
   page,
@@ -100,6 +105,7 @@ test("unsupported recognition still offers an explicitly labelled sample intent 
     (window as any).webkitSpeechRecognition = undefined;
   });
   await page.goto("/voice");
+  await page.locator(".content select").selectOption("browser");
   await page.locator(".big-mic").click();
   await expect(page.locator(".error[role=alert]")).toContainText(
     "Speech recognition is unavailable",
