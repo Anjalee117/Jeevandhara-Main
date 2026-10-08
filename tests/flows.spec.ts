@@ -212,3 +212,52 @@ test("saved original demo name migrates without clearing farm changes", async ({
   ).toBeVisible();
   await expect(page.getByText("4.5 ACRES", { exact: true })).toBeVisible();
 });
+
+test("Hindi selection translates dashboard and persists across language controls", async ({
+  page,
+}) => {
+  await page.goto("/dashboard");
+  await page.getByLabel("Language", { exact: true }).selectOption("hi");
+  await expect(
+    page.getByRole("heading", { name: "नमस्ते, Anjalee।" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "जीवनधारा से पूछें।" }),
+  ).toBeVisible();
+  await expect(page.getByText("वर्तमान फसल", { exact: true })).toBeVisible();
+  await expect(page.locator("html")).toHaveAttribute("lang", "hi");
+  await page.reload();
+  await expect(
+    page.getByRole("heading", { name: "नमस्ते, Anjalee।" }),
+  ).toBeVisible();
+  await page.goto("/settings");
+  await expect(page.getByLabel("Preferred language")).toHaveValue("hi");
+  await page.goto("/farm");
+  await expect(page.getByLabel("Preferred language")).toHaveValue("hi");
+  await page.getByLabel("Language", { exact: true }).selectOption("en");
+  await page.goto("/dashboard");
+  await expect(
+    page.getByRole("heading", { name: "Good to grow, Anjalee." }),
+  ).toBeVisible();
+});
+
+test("Hindi questions route to weather and schemes", async ({ page }) => {
+  await page.goto("/voice");
+  await page.getByLabel("Language", { exact: true }).selectOption("hi");
+  await page.getByLabel("Your question").fill("क्या कल बारिश होगी?");
+  await page.getByRole("button", { name: "ANALYZE QUESTION" }).click();
+  await expect(page.getByText("Weather", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("बारिश का पूर्वानुमान देखें और खेत की जल निकासी जाँचें।", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Ask again" }).click();
+  await page
+    .getByLabel("Your question")
+    .fill("मेरे लिए कौन सी सरकारी योजनाएँ हैं?");
+  await page.getByRole("button", { name: "ANALYZE QUESTION" }).click();
+  await expect(
+    page.getByText("Government Scheme", { exact: true }),
+  ).toBeVisible();
+});

@@ -5,6 +5,7 @@ import { ArrowUpRight, ArrowRight, Mic, Check } from "lucide-react";
 import { Farm, Action } from "@/types";
 import { voiceService } from "@/services";
 import { Badge, Panel, Empty, Field } from "@/components/ui";
+import { speechLocale, translate } from "@/lib/i18n";
 type Recognition = {
   lang: string;
   continuous: boolean;
@@ -62,8 +63,10 @@ export function Voice({
       setResult(r);
       record(r.transcript);
       if (spoken && window.speechSynthesis) {
-        const u = new SpeechSynthesisUtterance(r.recommendation);
-        u.lang = farm.language === "kn" ? "kn-IN" : "en-IN";
+        const u = new SpeechSynthesisUtterance(
+          translate(farm.language, r.recommendation),
+        );
+        u.lang = speechLocale(farm.language);
         window.speechSynthesis.speak(u);
       }
     } catch (e) {
@@ -93,7 +96,7 @@ export function Voice({
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       stream.getTracks().forEach((t) => t.stop());
       const r = new R();
-      r.lang = farm.language === "kn" ? "kn-IN" : "en-IN";
+      r.lang = speechLocale(farm.language);
       r.continuous = false;
       r.interimResults = false;
       queryRef.current = "";
@@ -134,8 +137,8 @@ export function Voice({
     <div className="two-columns">
       <Panel title="Ask your farm" label="DEMO INTENT ENGINE">
         <p>
-          Speak naturally in Kannada or English. Recognition uses your browser;
-          intent analysis uses local demo rules.
+          Speak naturally in Hindi, English or Kannada. Recognition uses your
+          browser; intent analysis uses local demo rules.
         </p>
         <div className={`voice-stage ${recording ? "recording" : ""}`}>
           <button
@@ -196,6 +199,7 @@ export function Voice({
             "Is rain expected tomorrow?",
             "Something is moving near my farm.",
             "ನನ್ನ ಟೊಮೇಟೊ ಬೆಳೆಗೆ ಏನು ಮಾಡಬೇಕು?",
+            "क्या कल बारिश होगी?",
           ].map((q) => (
             <button key={q} onClick={() => setQuery(q)}>
               {q} ↗
@@ -226,7 +230,7 @@ export function Voice({
               ))}
             </dl>
             <Badge tone="yellow">DEMO RESULT</Badge>
-            <h3>{result.recommendation}</h3>
+            <h3>{translate(farm.language, result.recommendation)}</h3>
             <p className="muted">
               Evidence: keyword rules and your saved {farm.crop} farm context.
             </p>
