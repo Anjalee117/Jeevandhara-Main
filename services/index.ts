@@ -1,5 +1,6 @@
 import { Farm, Action, Scheme, ThreatEvent } from "@/types";
 import { schemes, documents, demoState, crops } from "@/data/demo";
+import { translate, type Language } from "@/lib/i18n";
 const wait = () => new Promise<void>((resolve) => setTimeout(resolve, 350));
 export const farmerService = {
   getDemoFarm: () => structuredClone(demoState.farm),
@@ -129,7 +130,7 @@ export const schemeService = {
   },
 };
 export const knowledgeService = {
-  search(query: string, category = "All") {
+  search(query: string, category = "All", language: Language = "en") {
     const words = query.toLowerCase().split(/\s+/).filter(Boolean);
     return documents
       .filter((d) => category === "All" || d.category === category)
@@ -139,7 +140,19 @@ export const knowledgeService = {
           ? Math.round(
               (100 *
                 words.filter((w) =>
-                  (d.title + " " + d.text + " " + d.category)
+                  (
+                    d.title +
+                    " " +
+                    d.text +
+                    " " +
+                    d.category +
+                    " " +
+                    translate(language, d.title) +
+                    " " +
+                    translate(language, d.text) +
+                    " " +
+                    translate(language, d.category)
+                  )
                     .toLowerCase()
                     .includes(w),
                 ).length) /
