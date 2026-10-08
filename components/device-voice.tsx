@@ -238,7 +238,7 @@ export function DeviceVoice({
   }
   return (
     <Localized>
-      <div>
+      <div className="device-recorder">
         <div className={"voice-stage " + (recording ? "recording" : "")}>
           <button
             type="button"
@@ -254,11 +254,17 @@ export function DeviceVoice({
           </span>
           {recording && <span>{seconds} / 20 s</span>}
         </div>
-        <p className="muted">
-          Record a short question, then tap stop. Transcription runs on this
-          device. The first use downloads a speech model and can take a few
-          minutes.
+        <p className="voice-hint">
+          Record your question, then tap the microphone to stop.
         </p>
+        <details className="voice-help">
+          <summary>How transcription works</summary>
+          <p className="muted">
+            Record a short question, then tap stop. Transcription runs on this
+            device. The first use downloads a speech model and can take a few
+            minutes.
+          </p>
+        </details>
         {audioUrl && (
           <div>
             <p>Listen to your recording</p>

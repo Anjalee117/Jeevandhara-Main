@@ -230,12 +230,11 @@ export function Voice({
   return (
     <Localized>
       {
-        <div className="two-columns">
-          <Panel title="Ask your farm" label="DEMO INTENT ENGINE">
-            <p>
-              Speak naturally in Hindi, English or Kannada. Device transcription
-              records your microphone and transcribes locally; intent analysis
-              uses local demo rules.
+        <div className="two-columns voice-workspace">
+          <Panel title="Ask your farm" label="VOICE AI" className="voice-input">
+            <p className="voice-intro">
+              Speak in Hindi, English or Kannada. Ask a question about your
+              farm.
             </p>
             <Field label="Transcription method">
               <select
@@ -339,29 +338,36 @@ export function Voice({
                 RUN SAMPLE INTENT DEMO
               </button>
             </div>
-            <p className="muted">
-              The sample demo uses prepared text. Live transcription uses the
-              selected speech method.
-            </p>
-            <div className="sample-queries">
-              <span className="mono">TRY A QUESTION</span>
-              {[
-                "What schemes are available for me?",
-                "Is rain expected tomorrow?",
-                "Something is moving near my farm.",
-                "ನನ್ನ ಟೊಮೇಟೊ ಬೆಳೆಗೆ ಏನು ಮಾಡಬೇಕು?",
-                "क्या कल बारिश होगी?",
-              ].map((q) => (
-                <button
-                  key={q}
-                  onClick={() => setQuery(translate(farm.language, q))}
-                >
-                  {q} ↗
-                </button>
-              ))}
-            </div>
+            <details className="voice-examples">
+              <summary>Try a sample question</summary>
+              <p className="muted">
+                The sample demo uses prepared text. Live transcription uses the
+                selected speech method.
+              </p>
+              <div className="sample-queries">
+                <span className="mono">TRY A QUESTION</span>
+                {[
+                  "What schemes are available for me?",
+                  "Is rain expected tomorrow?",
+                  "Something is moving near my farm.",
+                  "ನನ್ನ ಟೊಮೇಟೊ ಬೆಳೆಗೆ ಏನು ಮಾಡಬೇಕು?",
+                  "क्या कल बारिश होगी?",
+                ].map((q) => (
+                  <button
+                    key={q}
+                    onClick={() => setQuery(translate(farm.language, q))}
+                  >
+                    {q} ↗
+                  </button>
+                ))}
+              </div>
+            </details>
           </Panel>
-          <Panel title="Understanding & recommendation" label="AI ASSISTED">
+          <Panel
+            title="Understanding & recommendation"
+            label="DEMO RESULT"
+            className="voice-result"
+          >
             {result ? (
               <>
                 <dl className="result-list">
