@@ -149,7 +149,7 @@ For future integrations, replace the service implementations behind their existi
 ## Data and demo limitations
 
 - **Storage:** Farm profile, language, saved actions, notifications, events, interactions and settings use `localStorage` under `jeevandhara-v1`. Data belongs to this browser and origin; it does not sync between devices. A new hosted URL starts with its own demo state.
-- **Voice:** Tap the microphone and allow browser access. Interim words appear in the question field; the final transcript automatically runs the intent demo. Permission, missing microphone, silence and network failures offer retry guidance. The separately labelled sample intent demo works without microphone access. Speech recognition depends on browser support and may use a browser-provider network service. Microphone access requires HTTPS or localhost. A typed fallback is available. Interface labels, descriptions and built-in demo results are translated into Hindi and Kannada. Farmer-entered text, uploaded filenames and hardware identifiers retain their original values.
+- **Voice:** Device transcription is the default: browser microphone capture → recorded playback → 16 kHz mono audio → a dedicated Web Worker running multilingual Whisper Base → transcript → local intent analysis. Audio stays on the device. The first use downloads model files from Hugging Face and WASM from jsDelivr; later uses can reuse the browser cache. Short recordings stop automatically after 20 seconds. Accuracy depends on language, audio and the small model. The optional browser speech service provides interim transcription; a service/network failure switches to device transcription for the next recording. Tap the microphone and allow browser access. In browser speech mode, interim words appear in the question field. Device mode returns text after recording stops. Both final transcripts automatically run the intent demo. Permission, missing microphone, silence and network failures offer retry guidance. The separately labelled sample intent demo works without microphone access. Speech recognition depends on browser support and may use a browser-provider network service. Microphone access requires HTTPS or localhost. A typed fallback is available. Interface labels, descriptions and built-in demo results are translated into Hindi and Kannada. Farmer-entered text, uploaded filenames and hardware identifiers retain their original values.
 - **Crop analysis:** Uploads are validated and previewed, but pixels are not classified. The crop-aware analysis response and confidence are fixed demo outputs.
 - **Schemes and knowledge:** Catalog entries, criteria, deadlines and source documents are illustrative, not official government information or a connected RAG system.
 - **Markets and weather:** Prices, distance values and forecasts are generated mock data. Market distances are not calculated from the farmer's actual location.
@@ -242,3 +242,11 @@ No license has been selected for this repository yet. Add a `LICENSE` file befor
 `data/translations.json` contains the English, Hindi and Kannada catalog, including templates for context-dependent recommendations. `lib/i18n.ts` formats translated phrases and values. `components/localization.tsx` applies the selected language to React presentation text, accessible labels and placeholders without changing canonical state or form option values. Scheme and knowledge searches also include the selected language in their search index. Add translations for new built-in content to the catalog.
 
 The browser suite checks every dashboard route for untranslated text in Hindi and Kannada and exercises eligibility explanations, crop results, market advice, alerts, action reasons and localized search.
+
+Optional real-model voice check (downloads model files):
+
+```bash
+RUN_DEVICE_MODEL_TEST=1 npx playwright test tests/device-voice.spec.ts --project=chromium --grep "real device model"
+```
+
+The generated weather-question fixture is synthetic speech. The check uses it as a virtual microphone input, actual MediaRecorder capture, and unmocked local model inference.

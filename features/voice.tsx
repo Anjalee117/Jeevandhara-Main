@@ -1,4 +1,5 @@
 "use client";
+import { DeviceVoice } from "@/components/device-voice";
 import { Localized } from "@/components/localization";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -39,6 +40,7 @@ export function Voice({
   record: (q: string) => void;
   addAction: (t: string, r: string) => void;
 }) {
+  const [method, setMethod] = useState<"device" | "browser">("device");
   const [query, setQuery] = useState("");
   const [recording, setRecording] = useState(false);
   const [status, setStatus] = useState("Ready when you are");
@@ -167,6 +169,16 @@ export function Voice({
       r.onnomatch = () =>
         fail("Speech was not understood. Speak clearly and try again.");
       r.onerror = (event) => {
+        if (
+          event.error === "network" ||
+          event.error === "service-not-allowed"
+        ) {
+          setMethod("device");
+          fail(
+            "The browser speech service is unavailable. Device transcription is selected; tap the microphone and record your question again.",
+          );
+          return;
+        }
         const messages: Record<string, string> = {
           "not-allowed":
             "Microphone permission was denied. Allow microphone access in your browser site settings, then try again.",
@@ -221,43 +233,70 @@ export function Voice({
         <div className="two-columns">
           <Panel title="Ask your farm" label="DEMO INTENT ENGINE">
             <p>
-              Speak naturally in Hindi, English or Kannada. Recognition uses
-              your browser; intent analysis uses local demo rules.
+              Speak naturally in Hindi, English or Kannada. Device transcription
+              records your microphone and transcribes locally; intent analysis
+              uses local demo rules.
             </p>
-            <div className={`voice-stage ${recording ? "recording" : ""}`}>
-              <button
-                className="big-mic"
-                onClick={start}
-                disabled={busy}
-                aria-label={recording ? "Stop recording" : "Start speaking"}
+            <Field label="Transcription method">
+              <select
+                value={method}
+                disabled={recording || busy}
+                onChange={(e) => {
+                  setMethod(e.target.value as "device" | "browser");
+                  setError("");
+                }}
               >
-                <Mic size={36} />
-              </button>
-              <div className="waveform">
-                {Array.from({ length: 19 }, (_, i) => (
-                  <i
-                    key={i}
-                    style={{
-                      height: `${12 + ((i * 17) % 45)}px`,
-                      animationDelay: `${i * 0.07}s`,
-                    }}
-                  />
-                ))}
-              </div>
-              <span className="mono" role="status" aria-live="polite">
-                {status}
-              </span>
-            </div>
-            <p className="muted" role="status" aria-live="polite">
-              {recording
-                ? "Tap the microphone to stop. Your words appear below as you speak."
-                : "Tap the microphone and allow access. Speak a question; the final transcript is analyzed automatically."}
-            </p>
-            {supported === false && (
-              <div className="info-banner">
-                Voice recognition is unavailable in this browser. You can type
-                your query or use a supported browser.
-              </div>
+                <option value="device">Device transcription</option>
+                <option value="browser">Browser speech service</option>
+              </select>
+            </Field>
+            {method === "device" ? (
+              <DeviceVoice
+                key={farm.language}
+                language={farm.language}
+                onTranscript={(text) => {
+                  setQuery(text);
+                  void analyze(text);
+                }}
+              />
+            ) : (
+              <>
+                <div className={`voice-stage ${recording ? "recording" : ""}`}>
+                  <button
+                    className="big-mic"
+                    onClick={start}
+                    disabled={busy}
+                    aria-label={recording ? "Stop recording" : "Start speaking"}
+                  >
+                    <Mic size={36} />
+                  </button>
+                  <div className="waveform">
+                    {Array.from({ length: 19 }, (_, i) => (
+                      <i
+                        key={i}
+                        style={{
+                          height: `${12 + ((i * 17) % 45)}px`,
+                          animationDelay: `${i * 0.07}s`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <span className="mono" role="status" aria-live="polite">
+                    {status}
+                  </span>
+                </div>
+                <p className="muted" role="status" aria-live="polite">
+                  {recording
+                    ? "Tap the microphone to stop. Your words appear below as you speak."
+                    : "Tap the microphone and allow access. Speak a question; the final transcript is analyzed automatically."}
+                </p>
+                {supported === false && (
+                  <div className="info-banner">
+                    Voice recognition is unavailable in this browser. You can
+                    type your query or use a supported browser.
+                  </div>
+                )}
+              </>
             )}
             <form
               onSubmit={(e) => {
@@ -301,8 +340,8 @@ export function Voice({
               </button>
             </div>
             <p className="muted">
-              The sample demo uses prepared text. Live transcription uses your
-              browser speech service and may require internet access.
+              The sample demo uses prepared text. Live transcription uses the
+              selected speech method.
             </p>
             <div className="sample-queries">
               <span className="mono">TRY A QUESTION</span>

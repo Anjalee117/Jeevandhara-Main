@@ -1421,5 +1421,111 @@
     "Speech recognition could not start. Check microphone permissions and try again.",
     "वॉइस पहचान शुरू नहीं हुई। माइक्रोफोन अनुमति जाँचकर फिर कोशिश करें।",
     "ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ಪ್ರಾರಂಭವಾಗಲಿಲ್ಲ. ಮೈಕ್ರೋಫೋನ್ ಅನುಮತಿ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
-  ]
+  ],
+  ["Transcription method", "लिप्यंतरण का तरीका", "ಲಿಪ್ಯಂತರ ವಿಧಾನ"],
+  ["Device transcription", "डिवाइस पर लिप्यंतरण", "ಸಾಧನದಲ್ಲಿ ಲಿಪ್ಯಂತರ"],
+  ["Browser speech service", "ब्राउज़र की वॉइस सेवा", "ಬ್ರೌಸರ್ ಧ್ವನಿ ಸೇವೆ"],
+  [
+    "Tap the microphone to record",
+    "रिकॉर्ड करने के लिए माइक्रोफोन दबाएँ",
+    "ರೆಕಾರ್ಡ್ ಮಾಡಲು ಮೈಕ್ರೋಫೋನ್ ಒತ್ತಿ"
+  ],
+  [
+    "Preparing recorded audio…",
+    "रिकॉर्ड की गई आवाज़ तैयार हो रही है…",
+    "ರೆಕಾರ್ಡ್ ಮಾಡಿದ ಧ್ವನಿ ಸಿದ್ಧವಾಗುತ್ತಿದೆ…"
+  ],
+  [
+    "Loading the speech model for the first time…",
+    "पहली बार वॉइस मॉडल लोड हो रहा है…",
+    "ಮೊದಲ ಬಾರಿಗೆ ಧ್ವನಿ ಮಾದರಿ ಲೋಡ್ ಆಗುತ್ತಿದೆ…"
+  ],
+  [
+    "Downloading speech model: {0}%",
+    "वॉइस मॉडल डाउनलोड: {0}%",
+    "ಧ್ವನಿ ಮಾದರಿ ಡೌನ್‌ಲೋಡ್: {0}%"
+  ],
+  [
+    "Transcribing on your device…",
+    "आपके डिवाइस पर लिप्यंतरण जारी…",
+    "ನಿಮ್ಮ ಸಾಧನದಲ್ಲಿ ಲಿಪ್ಯಂತರ ನಡೆಯುತ್ತಿದೆ…"
+  ],
+  [
+    "Ready to record again",
+    "फिर रिकॉर्ड करने के लिए तैयार",
+    "ಮತ್ತೆ ರೆಕಾರ್ಡ್ ಮಾಡಲು ಸಿದ್ಧ"
+  ],
+  [
+    "Recording — tap the microphone to finish",
+    "रिकॉर्डिंग जारी — समाप्त करने के लिए माइक्रोफोन दबाएँ",
+    "ರೆಕಾರ್ಡಿಂಗ್ ನಡೆಯುತ್ತಿದೆ — ಮುಗಿಸಲು ಮೈಕ್ರೋಫೋನ್ ಒತ್ತಿ"
+  ],
+  [
+    "Record a short question, then tap stop. Transcription runs on this device. The first use downloads a speech model and can take a few minutes.",
+    "छोटा सवाल रिकॉर्ड करें, फिर रोकें। लिप्यंतरण इसी डिवाइस पर होता है। पहली बार वॉइस मॉडल डाउनलोड होने में कुछ मिनट लग सकते हैं।",
+    "ಚಿಕ್ಕ ಪ್ರಶ್ನೆ ರೆಕಾರ್ಡ್ ಮಾಡಿ ನಂತರ ನಿಲ್ಲಿಸಿ. ಲಿಪ್ಯಂತರ ಈ ಸಾಧನದಲ್ಲೇ ನಡೆಯುತ್ತದೆ. ಮೊದಲ ಬಳಕೆಯಲ್ಲಿ ಧ್ವನಿ ಮಾದರಿ ಡೌನ್‌ಲೋಡ್ ಆಗಲು ಕೆಲವು ನಿಮಿಷ ಬೇಕಾಗಬಹುದು."
+  ],
+  [
+    "Listen to your recording",
+    "अपनी रिकॉर्डिंग सुनें",
+    "ನಿಮ್ಮ ರೆಕಾರ್ಡಿಂಗ್ ಕೇಳಿ"
+  ],
+  [
+    "Recorded microphone audio",
+    "माइक्रोफोन से रिकॉर्ड की गई आवाज़",
+    "ಮೈಕ್ರೋಫೋನ್‌ನಲ್ಲಿ ರೆಕಾರ್ಡ್ ಮಾಡಿದ ಧ್ವನಿ"
+  ],
+  ["Cancel transcription", "लिप्यंतरण रद्द करें", "ಲಿಪ್ಯಂತರ ರದ್ದುಮಾಡಿ"],
+  ["Retry transcription", "लिप्यंतरण फिर करें", "ಲಿಪ್ಯಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ"],
+  [
+    "No speech was understood. Listen to your recording and try again.",
+    "बात समझ नहीं आई। अपनी रिकॉर्डिंग सुनकर फिर कोशिश करें।",
+    "ಮಾತು ಅರ್ಥವಾಗಲಿಲ್ಲ. ನಿಮ್ಮ ರೆಕಾರ್ಡಿಂಗ್ ಕೇಳಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
+  ],
+  [
+    "Device transcription could not load or run. Your recording is preserved; retry transcription or type your question.",
+    "डिवाइस पर लिप्यंतरण लोड या चल नहीं सका। रिकॉर्डिंग सुरक्षित है; फिर कोशिश करें या सवाल लिखें।",
+    "ಸಾಧನದಲ್ಲಿ ಲಿಪ್ಯಂತರ ಲೋಡ್ ಆಗಲಿಲ್ಲ ಅಥವಾ ಕಾರ್ಯನಿರ್ವಹಿಸಲಿಲ್ಲ. ರೆಕಾರ್ಡಿಂಗ್ ಉಳಿದಿದೆ; ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ ಅಥವಾ ಪ್ರಶ್ನೆ ಬರೆಯಿರಿ."
+  ],
+  [
+    "No clear audio was captured. Check the recording and your microphone, then try again.",
+    "साफ़ आवाज़ रिकॉर्ड नहीं हुई। रिकॉर्डिंग और माइक्रोफोन जाँचकर फिर कोशिश करें।",
+    "ಸ್ಪಷ್ಟ ಧ್ವನಿ ಸೆರೆಹಿಡಿಯಲಾಗಿಲ್ಲ. ರೆಕಾರ್ಡಿಂಗ್ ಮತ್ತು ಮೈಕ್ರೋಫೋನ್ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
+  ],
+  [
+    "The recording could not be decoded. Try recording again in a supported browser.",
+    "रिकॉर्डिंग पढ़ी नहीं जा सकी। समर्थित ब्राउज़र में फिर रिकॉर्ड करें।",
+    "ರೆಕಾರ್ಡಿಂಗ್ ಓದಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಬೆಂಬಲಿತ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಮತ್ತೆ ರೆಕಾರ್ಡ್ ಮಾಡಿ."
+  ],
+  [
+    "This browser cannot record audio. Open the secure site in Chrome, Edge or Safari.",
+    "यह ब्राउज़र आवाज़ रिकॉर्ड नहीं कर सकता। सुरक्षित साइट को Chrome, Edge या Safari में खोलें।",
+    "ಈ ಬ್ರೌಸರ್ ಧ್ವನಿ ರೆಕಾರ್ಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ಸುರಕ್ಷಿತ ಸೈಟ್ Chrome, Edge ಅಥವಾ Safari ನಲ್ಲಿ ತೆರೆಯಿರಿ."
+  ],
+  [
+    "Audio recording failed. Check your microphone and try again.",
+    "आवाज़ रिकॉर्ड नहीं हुई। माइक्रोफोन जाँचकर फिर कोशिश करें।",
+    "ಧ್ವನಿ ರೆಕಾರ್ಡಿಂಗ್ ವಿಫಲವಾಗಿದೆ. ಮೈಕ್ರೋಫೋನ್ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
+  ],
+  [
+    "Speak naturally in Hindi, English or Kannada. Device transcription records your microphone and transcribes locally; intent analysis uses local demo rules.",
+    "हिंदी, अंग्रेज़ी या कन्नड़ में बोलें। डिवाइस लिप्यंतरण माइक्रोफोन की आवाज़ रिकॉर्ड करके यहीं पाठ बनाता है; आशय विश्लेषण स्थानीय डेमो नियमों से होता है।",
+    "ಹಿಂದಿ, ಇಂಗ್ಲಿಷ್ ಅಥವಾ ಕನ್ನಡದಲ್ಲಿ ಮಾತನಾಡಿ. ಸಾಧನ ಲಿಪ್ಯಂತರ ಮೈಕ್ರೋಫೋನ್ ಧ್ವನಿ ರೆಕಾರ್ಡ್ ಮಾಡಿ ಸ್ಥಳೀಯವಾಗಿ ಪಠ್ಯ ರೂಪಿಸುತ್ತದೆ; ಉದ್ದೇಶ ವಿಶ್ಲೇಷಣೆ ಸ್ಥಳೀಯ ಡೆಮೊ ನಿಯಮಗಳನ್ನು ಬಳಸುತ್ತದೆ."
+  ],
+  [
+    "The browser speech service is unavailable. Device transcription is selected; tap the microphone and record your question again.",
+    "ब्राउज़र की वॉइस सेवा उपलब्ध नहीं है। डिवाइस लिप्यंतरण चुना गया है; माइक्रोफोन दबाकर सवाल फिर रिकॉर्ड करें।",
+    "ಬ್ರೌಸರ್ ಧ್ವನಿ ಸೇವೆ ಲಭ್ಯವಿಲ್ಲ. ಸಾಧನ ಲಿಪ್ಯಂತರ ಆಯ್ಕೆಯಾಗಿದೆ; ಮೈಕ್ರೋಫೋನ್ ಒತ್ತಿ ನಿಮ್ಮ ಪ್ರಶ್ನೆಯನ್ನು ಮತ್ತೆ ರೆಕಾರ್ಡ್ ಮಾಡಿ."
+  ],
+  [
+    "Live transcription uses the selected speech method.",
+    "लाइव लिप्यंतरण चुने गए तरीके से होता है।",
+    "ನೇರ ಲಿಪ್ಯಂತರ ಆಯ್ಕೆ ಮಾಡಿದ ವಿಧಾನ ಬಳಸುತ್ತದೆ."
+  ],
+  [
+    "The sample demo uses prepared text. Live transcription uses the selected speech method.",
+    "नमूना डेमो तैयार पाठ का उपयोग करता है। लाइव लिप्यंतरण चुने गए तरीके से होता है।",
+    "ಮಾದರಿ ಡೆಮೊ ಸಿದ್ಧ ಪಠ್ಯ ಬಳಸುತ್ತದೆ. ನೇರ ಲಿಪ್ಯಂತರ ಆಯ್ಕೆ ಮಾಡಿದ ವಿಧಾನ ಬಳಸುತ್ತದೆ."
+  ],
+  ["{0} / 20 s", "{0} / 20 सेकंड", "{0} / 20 ಸೆಕೆಂಡು"]
 ]
