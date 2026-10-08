@@ -25,6 +25,11 @@ for (const language of ["hi", "kn"])
     for (const route of routes) {
       await page.goto("/" + route);
       await expect(page.locator("html")).toHaveAttribute("lang", language);
+      if (route !== "dashboard") {
+        await expect(page.locator(".module-scope")).toHaveCount(1);
+        await page.locator(".module-scope summary").click();
+        await expect(page.locator(".module-scope dd")).toHaveCount(2);
+      }
       const text = await page.evaluate(() => {
         const walker = document.createTreeWalker(
           document.body,

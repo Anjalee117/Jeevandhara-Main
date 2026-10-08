@@ -1,4 +1,5 @@
 "use client";
+import { ModuleScope } from "@/components/module-scope";
 import { LocaleProvider, Localized } from "@/components/localization";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -304,7 +305,6 @@ export function Application({ module }: { module: string }) {
             <aside className={`sidebar ${menu ? "open" : ""}`}>
               <Link href="/" className="logo">
                 <Leaf size={26} /> JEEVANDHARA
-                <span>THE FARM COMMAND CENTER</span>
               </Link>
               <button
                 className="mobile-close"
@@ -313,10 +313,6 @@ export function Application({ module }: { module: string }) {
               >
                 <X />
               </button>
-              <div className="workspace">
-                <span className="status-dot" /> FARM WORKSPACE <Badge>01</Badge>
-              </div>
-              <p className="nav-label">INTELLIGENCE</p>
               <nav>
                 {navigation.map(([path, en, ka, Icon]) => (
                   <Link
@@ -345,8 +341,6 @@ export function Application({ module }: { module: string }) {
                   );
                 })}
                 <div className="sidebar-note">
-                  <span className="status-dot" /> DEMO ENVIRONMENT
-                  <p>Local data. Real interactions.</p>
                   <button onClick={loadDemo}>↻ Load demo farm</button>
                 </div>
               </div>
@@ -368,7 +362,6 @@ export function Application({ module }: { module: string }) {
                   <Menu />
                 </button>
                 <div className="breadcrumb">
-                  WORKSPACE <span>/</span>{" "}
                   <strong>
                     {t(title, navigation.find((n) => n[0] === module)?.[2])}
                   </strong>
@@ -428,12 +421,6 @@ export function Application({ module }: { module: string }) {
                 )}
                 <div className="page-header">
                   <div>
-                    <p className="eyebrow">
-                      FARM WORKSPACE /{" "}
-                      {module === "dashboard"
-                        ? "OVERVIEW"
-                        : title.toUpperCase()}
-                    </p>
                     <h1>
                       {module === "dashboard"
                         ? farm.language === "hi"
@@ -446,19 +433,6 @@ export function Application({ module }: { module: string }) {
                             navigation.find((n) => n[0] === module)?.[2],
                           )}
                     </h1>
-                    <p>
-                      {module === "dashboard"
-                        ? t(
-                            "Your farm. Connected, informed, and in control.",
-                            "ನಿಮ್ಮ ಕೃಷಿ. ಸಂಪರ್ಕಿತ ಮತ್ತು ನಿಯಂತ್ರಣದಲ್ಲಿ.",
-                          )
-                        : "Context-aware intelligence for your next farm decision."}
-                    </p>
-                  </div>
-                  <div className="page-tag">
-                    <span className="status-dot" /> ALL LOCAL SERVICES
-                    OPERATIONAL
-                    <small>MOCK DATA · NOT LIVE AGRICULTURAL ADVICE</small>
                   </div>
                 </div>
                 {module === "dashboard" && (
@@ -509,9 +483,6 @@ export function Application({ module }: { module: string }) {
                     <div className="dashboard-grid">
                       <Panel className="ask-panel">
                         <div>
-                          <Badge tone="green">
-                            {t("VOICE-FIRST INTELLIGENCE")}
-                          </Badge>
                           <h2>{t("Ask Jeevandhara.", "ಜೀವನಧಾರವನ್ನು ಕೇಳಿ")}</h2>
                           <p>
                             {t("Speak naturally in Hindi, English or Kannada.")}
@@ -530,9 +501,6 @@ export function Application({ module }: { module: string }) {
                               {t("Type a question")} <ArrowUpRight size={15} />
                             </Link>
                           </div>
-                          <span className="mono">
-                            VOICE → INTENT → CONTEXT → ACTION
-                          </span>
                         </div>
                         <Link
                           href="/voice?start=1"
@@ -569,9 +537,6 @@ export function Application({ module }: { module: string }) {
                         title={t("Your next actions", "ನಿಮ್ಮ ಮುಂದಿನ ಕಾರ್ಯಗಳು")}
                         label={`${active.length} PENDING`}
                       >
-                        <div className="section-caption">
-                          PRIORITIZED FOR YOUR FARM, RIGHT NOW.
-                        </div>
                         {active.slice(0, 3).map((a) => (
                           <div className="action-row" key={a.id}>
                             <span
@@ -941,10 +906,10 @@ export function Application({ module }: { module: string }) {
                     </Panel>
                   </>
                 )}
+                <ModuleScope module={module} />
               </main>
               <footer className="app-footer">
-                <span>JEEVANDHARA / FARM INTELLIGENCE INFRASTRUCTURE</span>
-                <Link href="/system">DEMO SYSTEM STATUS ↗</Link>
+                <Link href="/system">System status ↗</Link>
               </footer>
             </div>
             <nav className="mobile-nav">

@@ -1789,3 +1789,38 @@ html:is([lang="hi"], [lang="kn"]) .badge {
     padding: 36px 20px;
   }
 }
+.sidebar > nav {
+  margin-top: 28px;
+}
+.module-scope {
+  margin-top: 32px;
+  border-top: 1px solid var(--border);
+  padding: 20px 0 4px;
+  color: var(--muted);
+}
+.module-scope summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ink);
+}
+.module-scope dl {
+  margin: 20px 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  line-height: 1.7;
+}
+.module-scope dt {
+  color: var(--ink);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.module-scope dd {
+  margin: 0;
+}
+@media (max-width: 600px) {
+  .module-scope dl {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+}

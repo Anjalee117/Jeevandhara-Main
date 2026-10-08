@@ -250,3 +250,5 @@ RUN_DEVICE_MODEL_TEST=1 npx playwright test tests/device-voice.spec.ts --project
 ```
 
 The generated weather-question fixture is synthetic speech. The check uses it as a virtual microphone input, actual MediaRecorder capture, and unmocked local model inference.
+
+Each of the 13 feature modules has an expandable Future scope section showing current capabilities and planned integrations. These are roadmap descriptions; they do not claim that future services are connected. The dashboard omits repeated technical headings and decorative panel labels.

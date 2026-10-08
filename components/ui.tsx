@@ -29,7 +29,7 @@ export function Panel({
           {title && (
             <div className="panel-heading">
               <h2>{title}</h2>
-              {label && <Badge>{label}</Badge>}
+              {label && /\d/.test(label) && <Badge>{label}</Badge>}
             </div>
           )}
           {children}
