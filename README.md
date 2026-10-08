@@ -32,7 +32,7 @@ Suggested description for the GitHub repository's **About** field:
 | Notifications            | Module navigation, type filters, read status and clearing notifications.                                                                                    |
 | Settings & System Status | Saved preferences, demo reset and transparent service connection status.                                                                                    |
 
-The interface uses a restrained brutalist design: sharp layouts, strong borders, technical labels and agricultural green accents. Major navigation and dashboard labels support Hindi, English and Kannada. Mobile layouts include bottom navigation and an accessible voice entry point.
+The interface uses a restrained brutalist design: sharp layouts, strong borders, technical labels and agricultural green accents. The interface and built-in demo content support Hindi, English and Kannada. Mobile layouts include bottom navigation and an accessible voice entry point.
 
 ## Quick start
 
@@ -103,7 +103,7 @@ npm test
 
 On a Linux CI machine, use `npx playwright install --with-deps chromium` to install browser system dependencies too.
 
-The suite tests the major product flows in desktop Chromium and a mobile Chromium viewport. It also checks all application routes for browser runtime errors and horizontal overflow. The latest recorded validation passed **28 tests**; see [VALIDATION.md](./VALIDATION.md) for the verification scope and limitations.
+The suite tests the major product flows in desktop Chromium and a mobile Chromium viewport. It also checks all application routes for browser runtime errors and horizontal overflow. The latest recorded validation passed **36 tests**; see [VALIDATION.md](./VALIDATION.md) for the verification scope and limitations.
 
 Real microphone capture and browser-provided transcription still need a manual check on a supported browser and device.
 
@@ -149,7 +149,7 @@ For future integrations, replace the service implementations behind their existi
 ## Data and demo limitations
 
 - **Storage:** Farm profile, language, saved actions, notifications, events, interactions and settings use `localStorage` under `jeevandhara-v1`. Data belongs to this browser and origin; it does not sync between devices. A new hosted URL starts with its own demo state.
-- **Voice:** Speech recognition depends on browser support and may use a browser-provider network service. Microphone access requires HTTPS or localhost. A typed fallback is available. Hindi and Kannada translation covers major labels and selected intent examples, rather than the entire application.
+- **Voice:** Speech recognition depends on browser support and may use a browser-provider network service. Microphone access requires HTTPS or localhost. A typed fallback is available. Interface labels, descriptions and built-in demo results are translated into Hindi and Kannada. Farmer-entered text, uploaded filenames and hardware identifiers retain their original values.
 - **Crop analysis:** Uploads are validated and previewed, but pixels are not classified. The crop-aware analysis response and confidence are fixed demo outputs.
 - **Schemes and knowledge:** Catalog entries, criteria, deadlines and source documents are illustrative, not official government information or a connected RAG system.
 - **Markets and weather:** Prices, distance values and forecasts are generated mock data. Market distances are not calculated from the farmer's actual location.
@@ -236,3 +236,9 @@ Use the Next.js runtime for this repository as currently configured. GitHub Page
 ## License
 
 No license has been selected for this repository yet. Add a `LICENSE` file before distributing the project under an open-source license.
+
+## Localization
+
+`data/translations.json` contains the English, Hindi and Kannada catalog, including templates for context-dependent recommendations. `lib/i18n.ts` formats translated phrases and values. `components/localization.tsx` applies the selected language to React presentation text, accessible labels and placeholders without changing canonical state or form option values. Scheme and knowledge searches also include the selected language in their search index. Add translations for new built-in content to the catalog.
+
+The browser suite checks every dashboard route for untranslated text in Hindi and Kannada and exercises eligibility explanations, crop results, market advice, alerts, action reasons and localized search.

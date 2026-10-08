@@ -217,7 +217,7 @@ test("Hindi selection translates dashboard and persists across language controls
   page,
 }) => {
   await page.goto("/dashboard");
-  await page.getByLabel("Language", { exact: true }).selectOption("hi");
+  await page.locator(".topbar select").selectOption("hi");
   await expect(
     page.getByRole("heading", { name: "नमस्ते, Anjalee।" }),
   ).toBeVisible();
@@ -231,10 +231,10 @@ test("Hindi selection translates dashboard and persists across language controls
     page.getByRole("heading", { name: "नमस्ते, Anjalee।" }),
   ).toBeVisible();
   await page.goto("/settings");
-  await expect(page.getByLabel("Preferred language")).toHaveValue("hi");
+  await expect(page.getByLabel("पसंदीदा भाषा")).toHaveValue("hi");
   await page.goto("/farm");
-  await expect(page.getByLabel("Preferred language")).toHaveValue("hi");
-  await page.getByLabel("Language", { exact: true }).selectOption("en");
+  await expect(page.getByLabel("पसंदीदा भाषा")).toHaveValue("hi");
+  await page.locator(".topbar select").selectOption("en");
   await page.goto("/dashboard");
   await expect(
     page.getByRole("heading", { name: "Good to grow, Anjalee." }),
@@ -243,21 +243,24 @@ test("Hindi selection translates dashboard and persists across language controls
 
 test("Hindi questions route to weather and schemes", async ({ page }) => {
   await page.goto("/voice");
-  await page.getByLabel("Language", { exact: true }).selectOption("hi");
-  await page.getByLabel("Your question").fill("क्या कल बारिश होगी?");
-  await page.getByRole("button", { name: "ANALYZE QUESTION" }).click();
-  await expect(page.getByText("Weather", { exact: true })).toBeVisible();
+  await page.locator(".topbar select").selectOption("hi");
+  await page.getByLabel("आपका सवाल").fill("क्या कल बारिश होगी?");
+  await page.getByRole("button", { name: "सवाल का विश्लेषण करें" }).click();
+  await expect(
+    page
+      .locator(".result-list dd")
+      .filter({ hasText: /^मौसम$/ })
+      .first(),
+  ).toBeVisible();
   await expect(
     page.getByText("बारिश का पूर्वानुमान देखें और खेत की जल निकासी जाँचें।", {
       exact: true,
     }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Ask again" }).click();
+  await page.getByRole("button", { name: "फिर पूछें" }).click();
   await page
-    .getByLabel("Your question")
+    .getByLabel("आपका सवाल")
     .fill("मेरे लिए कौन सी सरकारी योजनाएँ हैं?");
-  await page.getByRole("button", { name: "ANALYZE QUESTION" }).click();
-  await expect(
-    page.getByText("Government Scheme", { exact: true }),
-  ).toBeVisible();
+  await page.getByRole("button", { name: "सवाल का विश्लेषण करें" }).click();
+  await expect(page.getByText("सरकारी योजना", { exact: true })).toBeVisible();
 });

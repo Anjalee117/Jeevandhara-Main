@@ -1,3 +1,4 @@
+import { Localized } from "@/components/localization";
 import { cloneElement, useId, type ReactNode, type ReactElement } from "react";
 export function Badge({
   children,
@@ -6,7 +7,9 @@ export function Badge({
   children: ReactNode;
   tone?: string;
 }) {
-  return <span className={`badge ${tone}`}>{children}</span>;
+  return (
+    <Localized>{<span className={`badge ${tone}`}>{children}</span>}</Localized>
+  );
 }
 export function Panel({
   title,
@@ -20,19 +23,23 @@ export function Panel({
   className?: string;
 }) {
   return (
-    <section className={`panel ${className}`}>
-      {title && (
-        <div className="panel-heading">
-          <h2>{title}</h2>
-          {label && <Badge>{label}</Badge>}
-        </div>
-      )}
-      {children}
-    </section>
+    <Localized>
+      {
+        <section className={`panel ${className}`}>
+          {title && (
+            <div className="panel-heading">
+              <h2>{title}</h2>
+              {label && <Badge>{label}</Badge>}
+            </div>
+          )}
+          {children}
+        </section>
+      }
+    </Localized>
   );
 }
 export function Empty({ children }: { children: ReactNode }) {
-  return <p className="empty">{children}</p>;
+  return <Localized>{<p className="empty">{children}</p>}</Localized>;
 }
 export function Field({
   label,
@@ -43,10 +50,14 @@ export function Field({
 }) {
   const id = useId();
   return (
-    <div className="field">
-      <label htmlFor={id}>{label}</label>
-      {cloneElement(children as ReactElement<{ id?: string }>, { id })}
-    </div>
+    <Localized>
+      {
+        <div className="field">
+          <label htmlFor={id}>{label}</label>
+          {cloneElement(children as ReactElement<{ id?: string }>, { id })}
+        </div>
+      }
+    </Localized>
   );
 }
 export function Stat({
@@ -61,13 +72,17 @@ export function Stat({
   icon?: ReactNode;
 }) {
   return (
-    <div className="stat">
-      <div className="stat-label">
-        {label}
-        {icon}
-      </div>
-      <strong>{value}</strong>
-      <p>{detail}</p>
-    </div>
+    <Localized>
+      {
+        <div className="stat">
+          <div className="stat-label">
+            {label}
+            {icon}
+          </div>
+          <strong>{value}</strong>
+          <p>{detail}</p>
+        </div>
+      }
+    </Localized>
   );
 }

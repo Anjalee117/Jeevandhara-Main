@@ -1,4 +1,5 @@
 "use client";
+import { Localized } from "@/components/localization";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, ArrowRight, Mic, Check } from "lucide-react";
@@ -134,142 +135,154 @@ export function Voice({
     }
   }, []);
   return (
-    <div className="two-columns">
-      <Panel title="Ask your farm" label="DEMO INTENT ENGINE">
-        <p>
-          Speak naturally in Hindi, English or Kannada. Recognition uses your
-          browser; intent analysis uses local demo rules.
-        </p>
-        <div className={`voice-stage ${recording ? "recording" : ""}`}>
-          <button
-            className="big-mic"
-            onClick={start}
-            aria-label={recording ? "Stop recording" : "Start speaking"}
-          >
-            <Mic size={36} />
-          </button>
-          <div className="waveform">
-            {Array.from({ length: 19 }, (_, i) => (
-              <i
-                key={i}
-                style={{
-                  height: `${12 + ((i * 17) % 45)}px`,
-                  animationDelay: `${i * 0.07}s`,
-                }}
-              />
-            ))}
-          </div>
-          <span className="mono">
-            {recording ? "LISTENING — TAP TO STOP" : "READY WHEN YOU ARE"}
-          </span>
-        </div>
-        {supported === false && (
-          <div className="info-banner">
-            Voice recognition is unavailable in this browser. You can type your
-            query or use a supported browser.
-          </div>
-        )}
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            void analyze();
-          }}
-        >
-          <Field label="Your question">
-            <textarea
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="What should I do for my tomato crop?"
-              required
-            />
-          </Field>
-          <button className="button green" disabled={busy || recording}>
-            {busy ? "Analyzing…" : "ANALYZE QUESTION"} <ArrowRight size={16} />
-          </button>
-        </form>
-        {error && (
-          <p role="alert" className="error">
-            {error}
-          </p>
-        )}
-        <div className="sample-queries">
-          <span className="mono">TRY A QUESTION</span>
-          {[
-            "What schemes are available for me?",
-            "Is rain expected tomorrow?",
-            "Something is moving near my farm.",
-            "ನನ್ನ ಟೊಮೇಟೊ ಬೆಳೆಗೆ ಏನು ಮಾಡಬೇಕು?",
-            "क्या कल बारिश होगी?",
-          ].map((q) => (
-            <button key={q} onClick={() => setQuery(q)}>
-              {q} ↗
-            </button>
-          ))}
-        </div>
-      </Panel>
-      <Panel title="Understanding & recommendation" label="AI ASSISTED">
-        {result ? (
-          <>
-            <dl className="result-list">
-              {[
-                ["TRANSCRIPT", result.transcript],
-                ["NORMALIZED QUERY", result.normalized],
-                ["INTENT", result.intent],
-                ["CONFIDENCE", `${result.confidence}% · rule match estimate`],
-                [
-                  "ROUTED TO",
-                  result.route === "crop-health"
-                    ? "Crop Health + Action Planner"
-                    : result.route,
-                ],
-              ].map(([k, v]) => (
-                <div key={k}>
-                  <dt>{k}</dt>
-                  <dd>{v}</dd>
-                </div>
-              ))}
-            </dl>
-            <Badge tone="yellow">DEMO RESULT</Badge>
-            <h3>{translate(farm.language, result.recommendation)}</h3>
-            <p className="muted">
-              Evidence: keyword rules and your saved {farm.crop} farm context.
+    <Localized>
+      {
+        <div className="two-columns">
+          <Panel title="Ask your farm" label="DEMO INTENT ENGINE">
+            <p>
+              Speak naturally in Hindi, English or Kannada. Recognition uses
+              your browser; intent analysis uses local demo rules.
             </p>
-            <div className="button-row">
-              <Link href={`/${result.route}`} className="button green">
-                {result.route === "crop-health"
-                  ? "ANALYZE CROP"
-                  : "OPEN MODULE"}{" "}
-                <ArrowUpRight size={16} />
-              </Link>
+            <div className={`voice-stage ${recording ? "recording" : ""}`}>
               <button
-                className="button"
-                onClick={() =>
-                  addAction(
-                    result.recommendation,
-                    `Voice intent: ${result.intent}; crop: ${farm.crop}`,
-                  )
-                }
+                className="big-mic"
+                onClick={start}
+                aria-label={recording ? "Stop recording" : "Start speaking"}
               >
-                CREATE ACTION
+                <Mic size={36} />
               </button>
-              <button
-                className="text-link"
-                onClick={() => {
-                  setResult(null);
-                  setQuery("");
-                }}
-              >
-                Ask again
-              </button>
+              <div className="waveform">
+                {Array.from({ length: 19 }, (_, i) => (
+                  <i
+                    key={i}
+                    style={{
+                      height: `${12 + ((i * 17) % 45)}px`,
+                      animationDelay: `${i * 0.07}s`,
+                    }}
+                  />
+                ))}
+              </div>
+              <span className="mono">
+                {recording ? "LISTENING — TAP TO STOP" : "READY WHEN YOU ARE"}
+              </span>
             </div>
-          </>
-        ) : (
-          <Empty>
-            Your transcript, detected intent and recommended next action will
-            appear here.
-          </Empty>
-        )}
-      </Panel>
-    </div>
+            {supported === false && (
+              <div className="info-banner">
+                Voice recognition is unavailable in this browser. You can type
+                your query or use a supported browser.
+              </div>
+            )}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                void analyze();
+              }}
+            >
+              <Field label="Your question">
+                <textarea
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="What should I do for my tomato crop?"
+                  required
+                />
+              </Field>
+              <button className="button green" disabled={busy || recording}>
+                {busy ? "Analyzing…" : "ANALYZE QUESTION"}{" "}
+                <ArrowRight size={16} />
+              </button>
+            </form>
+            {error && (
+              <p role="alert" className="error">
+                {error}
+              </p>
+            )}
+            <div className="sample-queries">
+              <span className="mono">TRY A QUESTION</span>
+              {[
+                "What schemes are available for me?",
+                "Is rain expected tomorrow?",
+                "Something is moving near my farm.",
+                "ನನ್ನ ಟೊಮೇಟೊ ಬೆಳೆಗೆ ಏನು ಮಾಡಬೇಕು?",
+                "क्या कल बारिश होगी?",
+              ].map((q) => (
+                <button
+                  key={q}
+                  onClick={() => setQuery(translate(farm.language, q))}
+                >
+                  {q} ↗
+                </button>
+              ))}
+            </div>
+          </Panel>
+          <Panel title="Understanding & recommendation" label="AI ASSISTED">
+            {result ? (
+              <>
+                <dl className="result-list">
+                  {[
+                    ["TRANSCRIPT", result.transcript],
+                    ["NORMALIZED QUERY", result.normalized],
+                    ["INTENT", result.intent],
+                    [
+                      "CONFIDENCE",
+                      `${result.confidence}% · rule match estimate`,
+                    ],
+                    [
+                      "ROUTED TO",
+                      result.route === "crop-health"
+                        ? "Crop Health + Action Planner"
+                        : result.route,
+                    ],
+                  ].map(([k, v]) => (
+                    <div key={k}>
+                      <dt>{k}</dt>
+                      <dd data-preserve-text={k === "TRANSCRIPT" || undefined}>{v}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <Badge tone="yellow">DEMO RESULT</Badge>
+                <h3>{translate(farm.language, result.recommendation)}</h3>
+                <p className="muted">
+                  Evidence: keyword rules and your saved {farm.crop} farm
+                  context.
+                </p>
+                <div className="button-row">
+                  <Link href={`/${result.route}`} className="button green">
+                    {result.route === "crop-health"
+                      ? "ANALYZE CROP"
+                      : "OPEN MODULE"}{" "}
+                    <ArrowUpRight size={16} />
+                  </Link>
+                  <button
+                    className="button"
+                    onClick={() =>
+                      addAction(
+                        result.recommendation,
+                        `Voice intent: ${result.intent}; crop: ${farm.crop}`,
+                      )
+                    }
+                  >
+                    CREATE ACTION
+                  </button>
+                  <button
+                    className="text-link"
+                    onClick={() => {
+                      setResult(null);
+                      setQuery("");
+                    }}
+                  >
+                    Ask again
+                  </button>
+                </div>
+              </>
+            ) : (
+              <Empty>
+                Your transcript, detected intent and recommended next action
+                will appear here.
+              </Empty>
+            )}
+          </Panel>
+        </div>
+      }
+    </Localized>
   );
 }
