@@ -2,7 +2,7 @@ import { AppState, Scheme } from "@/types";
 export const crops = ["Tomato", "Ragi", "Jowar", "Onion", "Potato"];
 export const demoState: AppState = {
   farm: {
-    name: "Pratham",
+    name: "Anjalee",
     location: "Bengaluru Rural",
     size: 2.5,
     crop: "Tomato",
