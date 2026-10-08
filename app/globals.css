@@ -14,7 +14,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px;
+  font-size: max(var(--text-min, 0px), calc(14px * var(--text-scale, 1)));
 }
 a {
   color: inherit;
@@ -56,16 +56,16 @@ p {
 }
 h1 {
   letter-spacing: -1.6px;
-  font-size: 36px;
+  font-size: max(var(--text-min, 0px), calc(36px * var(--text-scale, 1)));
   line-height: 1.15;
 }
 h2 {
-  font-size: 19px;
+  font-size: max(var(--text-min, 0px), calc(19px * var(--text-scale, 1)));
   letter-spacing: -0.5px;
   line-height: 1.35;
 }
 h3 {
-  font-size: 15px;
+  font-size: max(var(--text-min, 0px), calc(15px * var(--text-scale, 1)));
   line-height: 1.45;
 }
 svg {
@@ -86,7 +86,7 @@ svg {
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
 }
 .eyebrow {
-  font-size: 10px;
+  font-size: max(var(--text-min, 0px), calc(10px * var(--text-scale, 1)));
   letter-spacing: 1.6px;
   font-weight: 700;
   margin-bottom: 12px;
@@ -98,7 +98,7 @@ svg {
   gap: 10px;
   padding: 13px 17px;
   border: 1.5px solid var(--ink);
-  font-size: 11px;
+  font-size: max(var(--text-min, 0px), calc(11px * var(--text-scale, 1)));
   font-weight: 700;
   letter-spacing: 0.4px;
   min-height: 43px;
@@ -124,7 +124,7 @@ svg {
   flex-wrap: wrap;
 }
 .text-link {
-  font-size: 12px;
+  font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
   font-weight: 600;
   display: inline-flex;
   gap: 7px;
@@ -135,7 +135,7 @@ svg {
 .badge {
   display: inline-flex;
   align-items: center;
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   letter-spacing: 0.5px;
   border: 1px solid var(--border);
   padding: 5px 7px;
@@ -161,7 +161,7 @@ svg {
   flex-shrink: 0;
 }
 .logo {
-  font-size: 17px;
+  font-size: max(var(--text-min, 0px), calc(17px * var(--text-scale, 1)));
   letter-spacing: -0.5px;
   font-weight: 900;
   display: flex;
@@ -172,7 +172,7 @@ svg {
 .logo span {
   width: 100%;
   font-family: monospace;
-  font-size: 8px;
+  font-size: max(var(--text-min, 0px), calc(8px * var(--text-scale, 1)));
   font-weight: 400;
   letter-spacing: 1.1px;
   margin-left: 33px;
@@ -196,14 +196,14 @@ svg {
   border-block: 1px solid var(--border);
   padding: 17px 3px;
   margin-top: 28px;
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   letter-spacing: 1px;
 }
 .workspace .badge {
   margin-left: auto;
 }
 .nav-label {
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   letter-spacing: 1.4px;
   color: var(--muted);
   margin: 23px 10px 12px;
@@ -218,7 +218,7 @@ svg {
   display: flex;
   align-items: center;
   gap: 11px;
-  font-size: 12px;
+  font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
   padding: 11px 10px;
   color: #656d63;
 }
@@ -243,13 +243,13 @@ svg {
 }
 .nav-bottom > a {
   padding-block: 8px;
-  font-size: 11px;
+  font-size: max(var(--text-min, 0px), calc(11px * var(--text-scale, 1)));
 }
 .sidebar-note {
   border: 1px solid var(--border);
   padding: 13px 10px;
   font-family: monospace;
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   margin-top: 14px;
 }
 .sidebar-note p {
@@ -257,7 +257,7 @@ svg {
   margin: 7px 0 11px;
 }
 .sidebar-note button {
-  font-size: 10px;
+  font-size: max(var(--text-min, 0px), calc(10px * var(--text-scale, 1)));
   text-decoration: underline;
 }
 .main-shell {
@@ -273,7 +273,7 @@ svg {
   background: #fafbf6;
 }
 .breadcrumb {
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   letter-spacing: 0.7px;
   color: var(--muted);
 }
@@ -291,7 +291,7 @@ svg {
 }
 .topbar select {
   font-family: monospace;
-  font-size: 10px;
+  font-size: max(var(--text-min, 0px), calc(10px * var(--text-scale, 1)));
   background: transparent;
   border: 0;
   max-width: 125px;
@@ -316,7 +316,7 @@ svg {
   border: 1px solid #ccd0c5;
   height: 31px;
   width: 31px;
-  font-size: 11px;
+  font-size: max(var(--text-min, 0px), calc(11px * var(--text-scale, 1)));
   font-weight: 700;
 }
 .content {
@@ -336,17 +336,17 @@ svg {
   margin-bottom: 9px;
 }
 .page-header p:last-child {
-  font-size: 12px;
+  font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
   color: var(--muted);
   margin: 0;
 }
 .page-tag {
-  font-size: 8px;
+  font-size: max(var(--text-min, 0px), calc(8px * var(--text-scale, 1)));
   letter-spacing: 0.7px;
 }
 .page-tag small {
   display: block;
-  font-size: 7px;
+  font-size: max(var(--text-min, 0px), calc(7px * var(--text-scale, 1)));
   color: var(--muted);
   margin-top: 8px;
 }
@@ -359,7 +359,7 @@ svg {
   padding: 12px 16px;
   margin-bottom: 22px;
   font-family: monospace;
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   letter-spacing: 0.3px;
 }
 .farm-strip span {
@@ -390,7 +390,7 @@ svg {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 8px;
+  font-size: max(var(--text-min, 0px), calc(8px * var(--text-scale, 1)));
   letter-spacing: 0.8px;
   color: #697264;
   min-height: 18px;
@@ -400,14 +400,14 @@ svg {
   width: 17px;
 }
 .stat > strong {
-  font-size: 30px;
+  font-size: max(var(--text-min, 0px), calc(30px * var(--text-scale, 1)));
   letter-spacing: -1px;
   display: block;
   margin-top: 15px;
   font-weight: 600;
 }
 .stat p {
-  font-size: 10px;
+  font-size: max(var(--text-min, 0px), calc(10px * var(--text-scale, 1)));
   margin: 9px 0 0;
   color: var(--muted);
 }
@@ -428,7 +428,7 @@ svg {
 }
 .panel-heading h2 {
   margin: 0;
-  font-size: 15px;
+  font-size: max(var(--text-min, 0px), calc(15px * var(--text-scale, 1)));
 }
 .panel > h2 {
   margin-top: 14px;
@@ -450,27 +450,27 @@ svg {
   min-height: 264px;
 }
 .ask-panel h2 {
-  font-size: 30px;
+  font-size: max(var(--text-min, 0px), calc(30px * var(--text-scale, 1)));
   letter-spacing: -1px;
   margin: 17px 0 12px;
 }
 .ask-panel p {
-  font-size: 12px;
+  font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
   color: #65705c;
 }
 .ask-panel .mono {
   display: block;
-  font-size: 8px;
+  font-size: max(var(--text-min, 0px), calc(8px * var(--text-scale, 1)));
   letter-spacing: 1px;
   margin-top: 25px;
   color: #6e7a64;
 }
 .ask-panel .button {
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   padding: 12px;
 }
 .ask-panel .text-link {
-  font-size: 10px;
+  font-size: max(var(--text-min, 0px), calc(10px * var(--text-scale, 1)));
 }
 .mic-orbit {
   position: relative;
@@ -505,7 +505,7 @@ svg {
   position: absolute;
   bottom: -19px;
   font-family: monospace;
-  font-size: 7px;
+  font-size: max(var(--text-min, 0px), calc(7px * var(--text-scale, 1)));
   letter-spacing: 1px;
 }
 .farm-details {
@@ -516,7 +516,7 @@ svg {
   justify-content: space-between;
   padding: 9px 0;
   border-bottom: 1px solid #e7e9e0;
-  font-size: 11px;
+  font-size: max(var(--text-min, 0px), calc(11px * var(--text-scale, 1)));
   gap: 15px;
 }
 .farm-details dt {
@@ -531,12 +531,12 @@ svg {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 10px;
+  font-size: max(var(--text-min, 0px), calc(10px * var(--text-scale, 1)));
   font-weight: 600;
   padding-top: 17px;
 }
 .section-caption {
-  font-size: 8px;
+  font-size: max(var(--text-min, 0px), calc(8px * var(--text-scale, 1)));
   letter-spacing: 0.8px;
   color: var(--muted);
   margin-bottom: 15px;
@@ -549,17 +549,17 @@ svg {
   border-bottom: 1px solid var(--border);
 }
 .action-row .badge {
-  font-size: 7px;
+  font-size: max(var(--text-min, 0px), calc(7px * var(--text-scale, 1)));
   padding: 3px 5px;
 }
 .action-row h3 {
   margin: 6px 0 4px;
-  font-size: 12px;
+  font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
 }
 .action-row p {
   margin: 0;
   color: var(--muted);
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
 }
 .priority-line {
   width: 3px;
@@ -584,19 +584,19 @@ svg {
   margin: 25px 0 18px;
 }
 .weather-signal .mono {
-  font-size: 7px;
+  font-size: max(var(--text-min, 0px), calc(7px * var(--text-scale, 1)));
   color: var(--muted);
   letter-spacing: 1px;
 }
 .weather-signal h3 {
   margin: 5px 0 0;
-  font-size: 14px;
+  font-size: max(var(--text-min, 0px), calc(14px * var(--text-scale, 1)));
 }
 .weather-signal .badge {
   margin-left: auto;
 }
 .signal-copy {
-  font-size: 11px;
+  font-size: max(var(--text-min, 0px), calc(11px * var(--text-scale, 1)));
   color: var(--muted);
 }
 .mini-readings {
@@ -611,19 +611,19 @@ svg {
   padding-left: 24px;
 }
 .mini-readings span {
-  font-size: 7px;
+  font-size: max(var(--text-min, 0px), calc(7px * var(--text-scale, 1)));
   display: block;
   letter-spacing: 0.5px;
   color: var(--muted);
 }
 .mini-readings strong {
-  font-size: 25px;
+  font-size: max(var(--text-min, 0px), calc(25px * var(--text-scale, 1)));
   display: block;
   margin-top: 7px;
   font-weight: 500;
 }
 .signal-footer {
-  font-size: 8px;
+  font-size: max(var(--text-min, 0px), calc(8px * var(--text-scale, 1)));
   color: var(--muted);
   display: flex;
   gap: 7px;
@@ -641,7 +641,7 @@ svg {
   justify-content: space-between;
   gap: 15px;
   color: var(--muted);
-  font-size: 8px;
+  font-size: max(var(--text-min, 0px), calc(8px * var(--text-scale, 1)));
   padding-block: 7px;
 }
 .bottom-note > span:first-child {
@@ -655,7 +655,7 @@ svg {
   justify-content: space-between;
   border-top: 1px solid var(--border);
   padding: 20px 35px;
-  font-size: 7px;
+  font-size: max(var(--text-min, 0px), calc(7px * var(--text-scale, 1)));
   letter-spacing: 0.6px;
   color: var(--muted);
 }
@@ -668,7 +668,7 @@ svg {
 }
 .field > label {
   font-family: monospace;
-  font-size: 10px;
+  font-size: max(var(--text-min, 0px), calc(10px * var(--text-scale, 1)));
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -701,7 +701,7 @@ svg {
 }
 .form-footer p {
   margin: 0;
-  font-size: 12px;
+  font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
   color: var(--muted);
 }
 .two-columns {
@@ -714,7 +714,7 @@ svg {
   color: var(--muted);
   text-align: center;
   border: 1px dashed var(--border);
-  font-size: 13px;
+  font-size: max(var(--text-min, 0px), calc(13px * var(--text-scale, 1)));
 }
 .error {
   padding: 15px;
@@ -722,7 +722,7 @@ svg {
   border: 1px solid #c88170;
   color: #913d2c;
   margin-bottom: 16px;
-  font-size: 12px;
+  font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
 }
 .error > button {
   float: right;
@@ -770,7 +770,7 @@ svg {
   border: 1px solid #d3d7c8;
   background: #eef0e6;
   margin-bottom: 22px;
-  font-size: 11px;
+  font-size: max(var(--text-min, 0px), calc(11px * var(--text-scale, 1)));
   line-height: 1.6;
 }
 .evidence {
@@ -778,14 +778,14 @@ svg {
   border-left: 3px solid #719953;
   background: #edf1e4;
   margin: 20px 0;
-  font-size: 12px;
+  font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
 }
 .evidence p:last-child {
   margin-bottom: 0;
 }
 .muted {
   color: var(--muted);
-  font-size: 11px;
+  font-size: max(var(--text-min, 0px), calc(11px * var(--text-scale, 1)));
 }
 .filters {
   display: flex;
@@ -829,7 +829,7 @@ svg {
   justify-content: space-between;
   padding: 15px 0;
   gap: 15px;
-  font-size: 12px;
+  font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
 }
 .toggle-row > span {
   display: flex;
@@ -873,7 +873,7 @@ svg {
   background: #46702e;
 }
 .voice-stage .mono {
-  font-size: 10px;
+  font-size: max(var(--text-min, 0px), calc(10px * var(--text-scale, 1)));
 }
 .recording .big-mic {
   background: #edcc7b;
@@ -885,13 +885,13 @@ svg {
   margin-top: 25px;
 }
 .sample-queries .mono {
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
 }
 .sample-queries button {
   border: 1px solid var(--border);
   text-align: left;
   padding: 10px;
-  font-size: 11px;
+  font-size: max(var(--text-min, 0px), calc(11px * var(--text-scale, 1)));
 }
 .result-list {
   margin: 0;
@@ -901,13 +901,13 @@ svg {
 }
 .result-list dt {
   font-family: monospace;
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   color: var(--muted);
   margin-bottom: 7px;
 }
 .result-list dd {
   margin: 0;
-  font-size: 14px;
+  font-size: max(var(--text-min, 0px), calc(14px * var(--text-scale, 1)));
   line-height: 1.6;
 }
 .eligibility-result {
@@ -927,12 +927,12 @@ svg {
   background: #f1f4ea;
 }
 .upload-zone p {
-  font-size: 11px;
+  font-size: max(var(--text-min, 0px), calc(11px * var(--text-scale, 1)));
   color: var(--muted);
 }
 .upload-zone input {
   max-width: 200px;
-  font-size: 10px;
+  font-size: max(var(--text-min, 0px), calc(10px * var(--text-scale, 1)));
 }
 .upload-zone img {
   width: 100%;
@@ -946,7 +946,7 @@ svg {
 table {
   border-collapse: collapse;
   width: 100%;
-  font-size: 12px;
+  font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
   white-space: nowrap;
 }
 th,
@@ -957,7 +957,7 @@ td {
 }
 th {
   font-family: monospace;
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   background: #eef1e5;
 }
 .chart {
@@ -975,11 +975,11 @@ th {
 .chart-axis {
   display: flex;
   justify-content: space-between;
-  font-size: 8px;
+  font-size: max(var(--text-min, 0px), calc(8px * var(--text-scale, 1)));
   color: var(--muted);
 }
 .chart + .mono {
-  font-size: 10px;
+  font-size: max(var(--text-min, 0px), calc(10px * var(--text-scale, 1)));
   margin-top: 20px;
 }
 .forecast {
@@ -997,11 +997,11 @@ th {
 }
 .forecast span,
 .forecast small {
-  font-size: 11px;
+  font-size: max(var(--text-min, 0px), calc(11px * var(--text-scale, 1)));
   color: var(--muted);
 }
 .forecast strong {
-  font-size: 24px;
+  font-size: max(var(--text-min, 0px), calc(24px * var(--text-scale, 1)));
 }
 .tabs {
   display: flex;
@@ -1010,7 +1010,7 @@ th {
 }
 .tabs button {
   font-family: monospace;
-  font-size: 12px;
+  font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
   padding: 15px 25px;
 }
 .tabs button.selected {
@@ -1025,7 +1025,7 @@ th {
 }
 .event p,
 .event ol {
-  font-size: 12px;
+  font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
   line-height: 2;
 }
 .event ol {
@@ -1049,7 +1049,7 @@ th {
   display: inline;
 }
 .notice .mono {
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   color: var(--muted);
 }
 .notice.read {
@@ -1069,7 +1069,7 @@ th {
   gap: 14px;
 }
 .context-flow .mono {
-  font-size: 10px;
+  font-size: max(var(--text-min, 0px), calc(10px * var(--text-scale, 1)));
   color: var(--muted);
 }
 .service-grid {
@@ -1086,7 +1086,7 @@ th {
 }
 .service-grid p {
   margin: 15px 0 0;
-  font-size: 11px;
+  font-size: max(var(--text-min, 0px), calc(11px * var(--text-scale, 1)));
   color: var(--muted);
 }
 .menu-toggle,
@@ -1132,13 +1132,13 @@ th {
 .hero-copy {
   color: #747d6e;
   max-width: 540px;
-  font-size: 14px;
+  font-size: max(var(--text-min, 0px), calc(14px * var(--text-scale, 1)));
 }
 .hero .button-row {
   margin: 30px 0;
 }
 .hero .mono {
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   letter-spacing: 0.7px;
   color: var(--muted);
 }
@@ -1149,7 +1149,7 @@ th {
   background: #eef1e5;
 }
 .hero-diagram > .mono {
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
 }
 .field-art {
   height: 350px;
@@ -1189,7 +1189,7 @@ th {
   top: 20px;
   left: 20px;
   font-family: monospace;
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   line-height: 1.6;
 }
 .art-status {
@@ -1204,13 +1204,13 @@ th {
   gap: 10px;
   align-items: center;
   font-family: monospace;
-  font-size: 9px;
+  font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
 }
 .hero-data {
   display: flex;
   justify-content: space-between;
   font-family: monospace;
-  font-size: 8px;
+  font-size: max(var(--text-min, 0px), calc(8px * var(--text-scale, 1)));
   padding-top: 20px;
 }
 .architecture {
@@ -1220,7 +1220,7 @@ th {
   scroll-margin-top: 20px;
 }
 .architecture h2 {
-  font-size: 35px;
+  font-size: max(var(--text-min, 0px), calc(35px * var(--text-scale, 1)));
 }
 .architecture-flow {
   display: grid;
@@ -1237,10 +1237,10 @@ th {
   background: var(--paper);
 }
 .architecture-flow .mono {
-  font-size: 10px;
+  font-size: max(var(--text-min, 0px), calc(10px * var(--text-scale, 1)));
 }
 .architecture-flow strong {
-  font-size: 12px;
+  font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
   line-height: 1.5;
 }
 .architecture > p {
@@ -1251,7 +1251,7 @@ th {
   justify-content: space-between;
   padding: 30px 5%;
   font-family: monospace;
-  font-size: 10px;
+  font-size: max(var(--text-min, 0px), calc(10px * var(--text-scale, 1)));
 }
 @keyframes wave {
   to {
@@ -1304,7 +1304,7 @@ th {
     display: none;
   }
   .stat > strong {
-    font-size: 26px;
+    font-size: max(var(--text-min, 0px), calc(26px * var(--text-scale, 1)));
   }
   .topbar-right {
     gap: 15px;
@@ -1363,7 +1363,7 @@ th {
     flex-direction: column;
   }
   .hero h1 {
-    font-size: 65px;
+    font-size: max(var(--text-min, 0px), calc(65px * var(--text-scale, 1)));
   }
 }
 @media (max-width: 700px) {
@@ -1409,14 +1409,14 @@ th {
     padding: 26px 17px 25px;
   }
   .page-header h1 {
-    font-size: 30px;
+    font-size: max(var(--text-min, 0px), calc(30px * var(--text-scale, 1)));
   }
   .topbar .badge {
-    font-size: 8px;
+    font-size: max(var(--text-min, 0px), calc(8px * var(--text-scale, 1)));
   }
   .topbar select {
     max-width: 92px;
-    font-size: 9px;
+    font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   }
   .stats-grid {
     gap: 12px;
@@ -1425,17 +1425,17 @@ th {
     padding: 16px;
   }
   .stat > strong {
-    font-size: 28px;
+    font-size: max(var(--text-min, 0px), calc(28px * var(--text-scale, 1)));
   }
   .stat-label {
-    font-size: 8px;
+    font-size: max(var(--text-min, 0px), calc(8px * var(--text-scale, 1)));
   }
   .stat p {
-    font-size: 9px;
+    font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   }
   .farm-strip {
     gap: 11px;
-    font-size: 8px;
+    font-size: max(var(--text-min, 0px), calc(8px * var(--text-scale, 1)));
   }
   .farm-strip a {
     margin-left: 0;
@@ -1444,10 +1444,10 @@ th {
     padding: 22px;
   }
   .ask-panel h2 {
-    font-size: 28px;
+    font-size: max(var(--text-min, 0px), calc(28px * var(--text-scale, 1)));
   }
   .ask-panel .mono {
-    font-size: 7px;
+    font-size: max(var(--text-min, 0px), calc(7px * var(--text-scale, 1)));
   }
   .mic-orbit {
     width: 95px;
@@ -1466,7 +1466,7 @@ th {
   .app-footer {
     margin-bottom: 65px;
     padding: 20px 17px;
-    font-size: 6px;
+    font-size: max(var(--text-min, 0px), calc(6px * var(--text-scale, 1)));
     gap: 20px;
   }
   .mobile-nav {
@@ -1487,7 +1487,7 @@ th {
     flex-direction: column;
     align-items: center;
     gap: 5px;
-    font-size: 9px;
+    font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   }
   .mobile-nav > a:nth-child(2) {
     color: #417429;
@@ -1496,7 +1496,7 @@ th {
     bottom: 85px;
     right: 15px;
     padding: 14px;
-    font-size: 12px;
+    font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
   }
   .form-grid {
     grid-template-columns: 1fr;
@@ -1509,7 +1509,7 @@ th {
     grid-template-columns: repeat(2, 1fr);
   }
   .chart-axis {
-    font-size: 6px;
+    font-size: max(var(--text-min, 0px), calc(6px * var(--text-scale, 1)));
   }
   .context-flow,
   .service-grid {
@@ -1520,10 +1520,10 @@ th {
     flex-wrap: wrap;
   }
   .notice h3 {
-    font-size: 12px;
+    font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
   }
   .notice .text-link {
-    font-size: 10px;
+    font-size: max(var(--text-min, 0px), calc(10px * var(--text-scale, 1)));
   }
   .landing-header {
     padding: 20px;
@@ -1532,28 +1532,28 @@ th {
     display: none;
   }
   .landing-header .logo {
-    font-size: 14px;
+    font-size: max(var(--text-min, 0px), calc(14px * var(--text-scale, 1)));
     max-width: 190px;
   }
   .landing-header .button {
-    font-size: 9px;
+    font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
     padding: 10px;
   }
   .hero {
     padding: 50px 22px;
   }
   .hero h1 {
-    font-size: 48px;
+    font-size: max(var(--text-min, 0px), calc(48px * var(--text-scale, 1)));
     letter-spacing: -2px;
   }
   .hero .eyebrow {
-    font-size: 9px;
+    font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   }
   .hero .button {
-    font-size: 9px;
+    font-size: max(var(--text-min, 0px), calc(9px * var(--text-scale, 1)));
   }
   .hero .mono {
-    font-size: 8px;
+    font-size: max(var(--text-min, 0px), calc(8px * var(--text-scale, 1)));
   }
   .field-art {
     height: 280px;
@@ -1562,7 +1562,7 @@ th {
     padding: 40px 22px;
   }
   .architecture h2 {
-    font-size: 28px;
+    font-size: max(var(--text-min, 0px), calc(28px * var(--text-scale, 1)));
   }
   .architecture-flow {
     grid-template-columns: repeat(2, 1fr);
@@ -1572,7 +1572,7 @@ th {
   }
   .landing footer {
     gap: 20px;
-    font-size: 8px;
+    font-size: max(var(--text-min, 0px), calc(8px * var(--text-scale, 1)));
   }
   .tabs button {
     padding: 15px 20px;
@@ -1585,5 +1585,28 @@ th {
     animation: none !important;
     transition: none !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Larger, more open typography for Devanagari and Kannada scripts. */
+html:is([lang="hi"], [lang="kn"]) {
+  --text-scale: 1.25;
+  --text-min: 12px;
+}
+html:is([lang="hi"], [lang="kn"]) body {
+  line-height: 1.7;
+}
+html:is([lang="hi"], [lang="kn"]) :is(h1, h2, h3) {
+  line-height: 1.45;
+}
+html:is([lang="hi"], [lang="kn"]) :is(.eyebrow, .badge, .stat-label, nav a, button, label) {
+  letter-spacing: normal;
+}
+html:is([lang="hi"], [lang="kn"]) .badge {
+  white-space: normal;
+}
+@media (max-width: 600px) {
+  html:is([lang="hi"], [lang="kn"]) .stats-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
