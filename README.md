@@ -103,7 +103,7 @@ npm test
 
 On a Linux CI machine, use `npx playwright install --with-deps chromium` to install browser system dependencies too.
 
-The suite tests the major product flows in desktop Chromium and a mobile Chromium viewport. It also checks all application routes for browser runtime errors and horizontal overflow. The latest recorded validation passed **36 tests**; see [VALIDATION.md](./VALIDATION.md) for the verification scope and limitations.
+The suite tests the major product flows in desktop Chromium and a mobile Chromium viewport. It also checks all application routes for browser runtime errors and horizontal overflow. The original validation passed **36 tests**; see [VALIDATION.md](./VALIDATION.md) for the verification scope and limitations.
 
 Real microphone capture and browser-provided transcription still need a manual check on a supported browser and device.
 
@@ -149,7 +149,7 @@ For future integrations, replace the service implementations behind their existi
 ## Data and demo limitations
 
 - **Storage:** Farm profile, language, saved actions, notifications, events, interactions and settings use `localStorage` under `jeevandhara-v1`. Data belongs to this browser and origin; it does not sync between devices. A new hosted URL starts with its own demo state.
-- **Voice:** Speech recognition depends on browser support and may use a browser-provider network service. Microphone access requires HTTPS or localhost. A typed fallback is available. Interface labels, descriptions and built-in demo results are translated into Hindi and Kannada. Farmer-entered text, uploaded filenames and hardware identifiers retain their original values.
+- **Voice:** Tap the microphone and allow browser access. Interim words appear in the question field; the final transcript automatically runs the intent demo. Permission, missing microphone, silence and network failures offer retry guidance. The separately labelled sample intent demo works without microphone access. Speech recognition depends on browser support and may use a browser-provider network service. Microphone access requires HTTPS or localhost. A typed fallback is available. Interface labels, descriptions and built-in demo results are translated into Hindi and Kannada. Farmer-entered text, uploaded filenames and hardware identifiers retain their original values.
 - **Crop analysis:** Uploads are validated and previewed, but pixels are not classified. The crop-aware analysis response and confidence are fixed demo outputs.
 - **Schemes and knowledge:** Catalog entries, criteria, deadlines and source documents are illustrative, not official government information or a connected RAG system.
 - **Markets and weather:** Prices, distance values and forecasts are generated mock data. Market distances are not calculated from the farmer's actual location.
