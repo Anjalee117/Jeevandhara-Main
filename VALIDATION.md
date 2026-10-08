@@ -5,7 +5,7 @@ Verified on October 8, 2026 against the production build.
 - `npm run build`: passed; all application routes generated.
 - `npm run typecheck`: passed.
 - Dependency install/audit: zero known vulnerabilities after applying patched PostCSS override.
-- `npm test`: 24 passed, 0 failed, across Chromium desktop and a 390 × 844 mobile viewport.
+- `npm test`: 28 passed, 0 failed, across Chromium desktop and a 390 × 844 mobile viewport.
 
 The automated suite covers landing entry, typed voice intent routing, saved farm/context changes, scheme search/filter/eligibility/explanations, crop image upload/preview/analysis/action creation, changing sensor simulation and alert acknowledgement, persisted action completion history, notification navigation/read state, Kannada label persistence, market comparison and recommendation, and all routes without runtime errors or horizontal overflow.
 

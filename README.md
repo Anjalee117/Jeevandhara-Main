@@ -16,23 +16,23 @@ Suggested description for the GitHub repository's **About** field:
 
 ## What the application does
 
-| Module                   | Working functionality                                                                                                                             |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Dashboard                | Farm overview, context-aware summary cards, prioritized actions and field signals.                                                                |
-| Voice AI                 | Browser speech recognition where supported, typed questions, Kannada examples, rule-based intent detection and navigation to the relevant module. |
-| My Farm                  | Editable farmer and farm profile, validation and persistent browser storage.                                                                      |
-| Farmer Context           | Shared profile, crop, weather, market, schemes, actions and previous questions.                                                                   |
-| Government Schemes       | Search, crop/state/size/category/irrigation filters, deterministic eligibility and explanations.                                                  |
-| Crop Health              | Image selection or drag/drop, preview, removal, validation, mock analysis and action creation.                                                    |
-| Market Intelligence      | Crop selector, interactive price chart, market comparison and illustrative price/distance recommendations.                                        |
-| Weather Intelligence     | Location-dependent mock forecast, seven-day outlook and weather-based actions.                                                                    |
-| Threat Monitor           | Seven simulated devices, live reading updates, event generation, alert acknowledgement and history.                                               |
-| Action Planner           | Now/today/this-week views, decision factors, completion history and persisted 24-hour snoozes.                                                    |
-| Knowledge Library        | Keyword and category search, relevance scores and source document inspection.                                                                     |
-| Notifications            | Module navigation, type filters, read status and clearing notifications.                                                                          |
-| Settings & System Status | Saved preferences, demo reset and transparent service connection status.                                                                          |
+| Module                   | Working functionality                                                                                                                                       |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dashboard                | Farm overview, context-aware summary cards, prioritized actions and field signals.                                                                          |
+| Voice AI                 | Browser speech recognition where supported, typed questions, Hindi and Kannada examples, rule-based intent detection and navigation to the relevant module. |
+| My Farm                  | Editable farmer and farm profile, validation and persistent browser storage.                                                                                |
+| Farmer Context           | Shared profile, crop, weather, market, schemes, actions and previous questions.                                                                             |
+| Government Schemes       | Search, crop/state/size/category/irrigation filters, deterministic eligibility and explanations.                                                            |
+| Crop Health              | Image selection or drag/drop, preview, removal, validation, mock analysis and action creation.                                                              |
+| Market Intelligence      | Crop selector, interactive price chart, market comparison and illustrative price/distance recommendations.                                                  |
+| Weather Intelligence     | Location-dependent mock forecast, seven-day outlook and weather-based actions.                                                                              |
+| Threat Monitor           | Seven simulated devices, live reading updates, event generation, alert acknowledgement and history.                                                         |
+| Action Planner           | Now/today/this-week views, decision factors, completion history and persisted 24-hour snoozes.                                                              |
+| Knowledge Library        | Keyword and category search, relevance scores and source document inspection.                                                                               |
+| Notifications            | Module navigation, type filters, read status and clearing notifications.                                                                                    |
+| Settings & System Status | Saved preferences, demo reset and transparent service connection status.                                                                                    |
 
-The interface uses a restrained brutalist design: sharp layouts, strong borders, technical labels and agricultural green accents. Major navigation and dashboard labels support English and Kannada. Mobile layouts include bottom navigation and an accessible voice entry point.
+The interface uses a restrained brutalist design: sharp layouts, strong borders, technical labels and agricultural green accents. Major navigation and dashboard labels support Hindi, English and Kannada. Mobile layouts include bottom navigation and an accessible voice entry point.
 
 ## Quick start
 
@@ -103,7 +103,7 @@ npm test
 
 On a Linux CI machine, use `npx playwright install --with-deps chromium` to install browser system dependencies too.
 
-The suite tests the major product flows in desktop Chromium and a mobile Chromium viewport. It also checks all application routes for browser runtime errors and horizontal overflow. The latest recorded validation passed **24 tests**; see [VALIDATION.md](./VALIDATION.md) for the verification scope and limitations.
+The suite tests the major product flows in desktop Chromium and a mobile Chromium viewport. It also checks all application routes for browser runtime errors and horizontal overflow. The latest recorded validation passed **28 tests**; see [VALIDATION.md](./VALIDATION.md) for the verification scope and limitations.
 
 Real microphone capture and browser-provided transcription still need a manual check on a supported browser and device.
 
@@ -149,7 +149,7 @@ For future integrations, replace the service implementations behind their existi
 ## Data and demo limitations
 
 - **Storage:** Farm profile, language, saved actions, notifications, events, interactions and settings use `localStorage` under `jeevandhara-v1`. Data belongs to this browser and origin; it does not sync between devices. A new hosted URL starts with its own demo state.
-- **Voice:** Speech recognition depends on browser support and may use a browser-provider network service. Microphone access requires HTTPS or localhost. A typed fallback is available. Kannada translation covers major labels and selected intent examples, rather than the entire application.
+- **Voice:** Speech recognition depends on browser support and may use a browser-provider network service. Microphone access requires HTTPS or localhost. A typed fallback is available. Hindi and Kannada translation covers major labels and selected intent examples, rather than the entire application.
 - **Crop analysis:** Uploads are validated and previewed, but pixels are not classified. The crop-aware analysis response and confidence are fixed demo outputs.
 - **Schemes and knowledge:** Catalog entries, criteria, deadlines and source documents are illustrative, not official government information or a connected RAG system.
 - **Markets and weather:** Prices, distance values and forecasts are generated mock data. Market distances are not calculated from the farmer's actual location.

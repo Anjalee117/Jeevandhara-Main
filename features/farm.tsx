@@ -67,7 +67,7 @@ export function FarmForm({
               "Irrigation",
               ["Drip", "Sprinkler", "Rainfed", "Flood"],
             ],
-            ["language", "Preferred language", ["en", "kn"]],
+            ["language", "Preferred language", ["en", "kn", "hi"]],
           ].map(([key, label, options]) => (
             <Field key={key as string} label={label as string}>
               <select
@@ -76,7 +76,13 @@ export function FarmForm({
               >
                 {(options as string[]).map((v) => (
                   <option key={v} value={v}>
-                    {v === "en" ? "English" : v === "kn" ? "ಕನ್ನಡ" : v}
+                    {v === "en"
+                      ? "English"
+                      : v === "kn"
+                        ? "ಕನ್ನಡ"
+                        : v === "hi"
+                          ? "हिन्दी"
+                          : v}
                   </option>
                 ))}
               </select>

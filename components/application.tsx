@@ -27,6 +27,7 @@ import {
 import { AppState, Farm, Action } from "@/types";
 import { demoState } from "@/data/demo";
 import { storage } from "@/lib/storage";
+import { languages, translate } from "@/lib/i18n";
 import {
   farmerService,
   weatherService,
@@ -129,9 +130,13 @@ export function Application({ module }: { module: string }) {
     }
   };
   const farm = state.farm,
-    kn = farm.language === "kn",
     weather = weatherService.getForecast(farm),
     market = marketService.getPrices(farm.crop);
+  const t = (text: string, kannada?: string) =>
+    translate(farm.language, text, kannada);
+  useEffect(() => {
+    document.documentElement.lang = farm.language;
+  }, [farm.language]);
   const generated = actionPlannerService.generateActions(farm);
   const actions = [
     ...generated.map((a) =>
@@ -213,7 +218,7 @@ export function Application({ module }: { module: string }) {
               </a>
             </div>
             <p className="mono">
-              NO LOGIN REQUIRED / KANNADA + ENGLISH / DEMO MODE
+              NO LOGIN REQUIRED / HINDI + ENGLISH + KANNADA / DEMO MODE
             </p>
           </div>
           <div className="hero-diagram">
@@ -270,7 +275,7 @@ export function Application({ module }: { module: string }) {
       </main>
     );
   const title =
-    navigation.find((n) => n[0] === module)?.[kn ? 2 : 1] ??
+    navigation.find((n) => n[0] === module)?.[1] ??
     (
       {
         context: "Farmer context",
@@ -305,7 +310,7 @@ export function Application({ module }: { module: string }) {
               className={module === path ? "active" : ""}
             >
               <Icon size={18} />
-              {kn ? ka : en}
+              {t(en, ka)}
               {module === path && <span className="nav-dot" />}
             </Link>
           ))}
@@ -320,7 +325,7 @@ export function Application({ module }: { module: string }) {
             return (
               <Link key={path as string} href={`/${path}`}>
                 <I size={17} />
-                {label as string}
+                {t(label as string)}
               </Link>
             );
           })}
@@ -348,21 +353,30 @@ export function Application({ module }: { module: string }) {
             <Menu />
           </button>
           <div className="breadcrumb">
-            WORKSPACE <span>/</span> <strong>{title}</strong>
+            WORKSPACE <span>/</span>{" "}
+            <strong>
+              {t(title, navigation.find((n) => n[0] === module)?.[2])}
+            </strong>
           </div>
           <div className="topbar-right">
-            <Badge tone="green">● DEMO MODE</Badge>
+            <Badge tone="green">● {t("DEMO MODE")}</Badge>
             <select
               aria-label="Language"
               value={farm.language}
               onChange={(e) =>
                 update({
-                  farm: { ...farm, language: e.target.value as "en" | "kn" },
+                  farm: {
+                    ...farm,
+                    language: e.target.value as Farm["language"],
+                  },
                 })
               }
             >
-              <option value="en">EN / English</option>
-              <option value="kn">ಕನ್ನಡ</option>
+              {languages.map((l) => (
+                <option key={l.code} value={l.code}>
+                  {l.label}
+                </option>
+              ))}
             </select>
             <Link
               className="notification-link"
@@ -395,16 +409,19 @@ export function Application({ module }: { module: string }) {
               </p>
               <h1>
                 {module === "dashboard"
-                  ? kn
-                    ? `ನಮಸ್ಕಾರ, ${farm.name}.`
-                    : `Good to grow, ${farm.name}.`
-                  : title}
+                  ? farm.language === "hi"
+                    ? `नमस्ते, ${farm.name}।`
+                    : farm.language === "kn"
+                      ? `ನಮಸ್ಕಾರ, ${farm.name}.`
+                      : `Good to grow, ${farm.name}.`
+                  : t(title, navigation.find((n) => n[0] === module)?.[2])}
               </h1>
               <p>
                 {module === "dashboard"
-                  ? kn
-                    ? "ನಿಮ್ಮ ಕೃಷಿ. ಸಂಪರ್ಕಿತ ಮತ್ತು ನಿಯಂತ್ರಣದಲ್ಲಿ."
-                    : "Your farm. Connected, informed, and in control."
+                  ? t(
+                      "Your farm. Connected, informed, and in control.",
+                      "ನಿಮ್ಮ ಕೃಷಿ. ಸಂಪರ್ಕಿತ ಮತ್ತು ನಿಯಂತ್ರಣದಲ್ಲಿ.",
+                    )
                   : "Context-aware intelligence for your next farm decision."}
               </p>
             </div>
@@ -430,29 +447,29 @@ export function Application({ module }: { module: string }) {
               </div>
               <div className="stats-grid">
                 <Stat
-                  label={kn ? "ಪ್ರಸ್ತುತ ಬೆಳೆ" : "CURRENT CROP"}
+                  label={t("CURRENT CROP", "ಪ್ರಸ್ತುತ ಬೆಳೆ")}
                   value={farm.crop}
                   detail={`${farm.variety} · ${farm.stage}`}
                   icon={<Leaf />}
                 />
                 <Stat
-                  label={kn ? "ಹವಾಮಾನ" : "WEATHER NOW"}
+                  label={t("WEATHER NOW", "ಹವಾಮಾನ")}
                   value={`${weather.temperature}°C`}
                   detail={`${weather.rain}% rain probability`}
                   icon={<CloudRain />}
                 />
                 <Stat
-                  label="MARKET PRICE / QUINTAL"
+                  label={t("MARKET PRICE / QUINTAL")}
                   value={`₹${market.price.toLocaleString("en-IN")}`}
                   detail={`↑ ₹180 from previous · ${farm.crop}`}
                   icon={<ChartNoAxesCombined />}
                 />
                 <Stat
-                  label="FARM STATUS"
+                  label={t("FARM STATUS")}
                   value={
                     state.events.some((e) => !e.acknowledged)
-                      ? "Alert"
-                      : "Healthy"
+                      ? t("Alert")
+                      : t("Healthy")
                   }
                   detail={`${iotService.getDevices().filter((d) => d.status === "ONLINE").length}/7 simulated devices online`}
                   icon={<ShieldAlert />}
@@ -461,22 +478,20 @@ export function Application({ module }: { module: string }) {
               <div className="dashboard-grid">
                 <Panel className="ask-panel">
                   <div>
-                    <Badge tone="green">VOICE-FIRST INTELLIGENCE</Badge>
-                    <h2>{kn ? "ಜೀವನಧಾರವನ್ನು ಕೇಳಿ" : "Ask Jeevandhara."}</h2>
+                    <Badge tone="green">{t("VOICE-FIRST INTELLIGENCE")}</Badge>
+                    <h2>{t("Ask Jeevandhara.", "ಜೀವನಧಾರವನ್ನು ಕೇಳಿ")}</h2>
                     <p>
-                      {kn
-                        ? "ಕನ್ನಡ ಅಥವಾ ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ ಮಾತನಾಡಿ"
-                        : "Speak naturally in Kannada or English."}
+                      {t("Speak naturally in Hindi, English or Kannada.")}
                       <br />
-                      Your farm context does the rest.
+                      {t("Your farm context does the rest.")}
                     </p>
                     <div className="button-row">
                       <Link href="/voice?start=1" className="button green">
                         <Mic size={17} />{" "}
-                        {kn ? "ಮಾತನಾಡಲು ಪ್ರಾರಂಭಿಸಿ" : "START SPEAKING"}
+                        {t("START SPEAKING", "ಮಾತನಾಡಲು ಪ್ರಾರಂಭಿಸಿ")}
                       </Link>
                       <Link href="/voice" className="text-link">
-                        Type a question <ArrowUpRight size={15} />
+                        {t("Type a question")} <ArrowUpRight size={15} />
                       </Link>
                     </div>
                     <span className="mono">
@@ -489,10 +504,10 @@ export function Application({ module }: { module: string }) {
                     aria-label="Start speaking"
                   >
                     <Mic size={38} />
-                    <span>ASK YOUR FARM</span>
+                    <span>{t("ASK YOUR FARM")}</span>
                   </Link>
                 </Panel>
-                <Panel title="Your farm at a glance" label="CONTEXT">
+                <Panel title={t("Your farm at a glance")} label="CONTEXT">
                   <dl className="farm-details">
                     {[
                       ["Location", farm.location],
@@ -502,19 +517,19 @@ export function Application({ module }: { module: string }) {
                       ["Soil", farm.soil],
                     ].map(([k, v]) => (
                       <div key={k}>
-                        <dt>{k}</dt>
+                        <dt>{t(k)}</dt>
                         <dd>{v}</dd>
                       </div>
                     ))}
                   </dl>
                   <Link href="/context" className="panel-link">
-                    Explore farmer context <ArrowUpRight size={16} />
+                    {t("Explore farmer context")} <ArrowUpRight size={16} />
                   </Link>
                 </Panel>
               </div>
               <div className="dashboard-grid lower">
                 <Panel
-                  title={kn ? "ನಿಮ್ಮ ಮುಂದಿನ ಕಾರ್ಯಗಳು" : "Your next actions"}
+                  title={t("Your next actions", "ನಿಮ್ಮ ಮುಂದಿನ ಕಾರ್ಯಗಳು")}
                   label={`${active.length} PENDING`}
                 >
                   <div className="section-caption">
@@ -544,31 +559,31 @@ export function Application({ module }: { module: string }) {
                     </div>
                   ))}
                   <Link href="/actions" className="panel-link">
-                    Open action planner <ArrowRight size={16} />
+                    {t("Open action planner")} <ArrowRight size={16} />
                   </Link>
                 </Panel>
-                <Panel title="Field signals" label="SIMULATION">
+                <Panel title={t("Field signals")} label="SIMULATION">
                   <div className="weather-signal">
                     <CloudRain size={38} />
                     <div>
-                      <span className="mono">WEATHER ADVISORY</span>
-                      <h3>Rain is on the horizon.</h3>
+                      <span className="mono">{t("WEATHER ADVISORY")}</span>
+                      <h3>{t("Rain is on the horizon.")}</h3>
                     </div>
                     <Badge tone="yellow">WATCH</Badge>
                   </div>
                   <p className="signal-copy">{weather.recommendation}</p>
                   <div className="mini-readings">
                     <div>
-                      <span>RAIN PROBABILITY</span>
+                      <span>{t("RAIN PROBABILITY")}</span>
                       <strong>{weather.rain}%</strong>
                     </div>
                     <div>
-                      <span>SOIL MOISTURE</span>
+                      <span>{t("SOIL MOISTURE")}</span>
                       <strong>42%</strong>
                     </div>
                   </div>
                   <Link href="/weather" className="panel-link">
-                    View weather intelligence <ArrowUpRight size={16} />
+                    {t("View weather intelligence")} <ArrowUpRight size={16} />
                   </Link>
                   <div className="signal-footer">
                     <span className="status-dot" /> IoT gateway in simulation
@@ -754,7 +769,7 @@ export function Application({ module }: { module: string }) {
                 <p>
                   Crop: {farm.crop} · Variety: {farm.variety} · Soil:{" "}
                   {farm.soil} · Irrigation: {farm.irrigation} · Language:{" "}
-                  {kn ? "Kannada" : "English"}
+                  {languages.find((l) => l.code === farm.language)?.label}
                 </p>
               </Panel>
             </>
@@ -768,13 +783,16 @@ export function Application({ module }: { module: string }) {
                     update({
                       farm: {
                         ...farm,
-                        language: e.target.value as "en" | "kn",
+                        language: e.target.value as Farm["language"],
                       },
                     })
                   }
                 >
-                  <option value="en">English</option>
-                  <option value="kn">ಕನ್ನಡ</option>
+                  {languages.map((l) => (
+                    <option key={l.code} value={l.code}>
+                      {l.label}
+                    </option>
+                  ))}
                 </select>
               </Field>
               <label className="toggle-row">
@@ -878,23 +896,23 @@ export function Application({ module }: { module: string }) {
       <nav className="mobile-nav">
         <Link href="/dashboard">
           <LayoutDashboard size={20} />
-          Home
+          {t("Home")}
         </Link>
         <Link href="/voice">
           <Mic size={20} />
-          Voice
+          {t("Voice")}
         </Link>
         <Link href="/farm">
           <Tractor size={20} />
-          Farm
+          {t("Farm")}
         </Link>
         <Link href="/actions">
           <ListChecks size={20} />
-          Actions
+          {t("Actions")}
         </Link>
         <button onClick={() => setMenu(true)}>
           <Menu size={20} />
-          More
+          {t("More")}
         </button>
       </nav>
       {toast && (

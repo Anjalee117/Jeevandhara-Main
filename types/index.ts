@@ -9,7 +9,7 @@ export type Farm = {
   irrigation: string;
   sowing: string;
   harvest: string;
-  language: "en" | "kn";
+  language: "en" | "kn" | "hi";
 };
 export type Action = {
   id: string;
