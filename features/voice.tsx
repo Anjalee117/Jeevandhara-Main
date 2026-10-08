@@ -2,8 +2,8 @@
 import { Localized } from "@/components/localization";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, ArrowRight, Mic, Check } from "lucide-react";
-import { Farm, Action } from "@/types";
+import { ArrowUpRight, ArrowRight, Mic } from "lucide-react";
+import { Farm } from "@/types";
 import { voiceService } from "@/services";
 import { Badge, Panel, Empty, Field } from "@/components/ui";
 import { speechLocale, translate } from "@/lib/i18n";
@@ -13,9 +13,16 @@ type Recognition = {
   interimResults: boolean;
   start: () => void;
   stop: () => void;
+  abort: () => void;
+  onstart: (() => void) | null;
+  onaudiostart: (() => void) | null;
+  onspeechstart: (() => void) | null;
+  onnomatch: (() => void) | null;
   onresult:
     | ((event: {
-        results: ArrayLike<ArrayLike<{ transcript: string }>>;
+        results: ArrayLike<
+          ArrayLike<{ transcript: string }> & { isFinal: boolean }
+        >;
       }) => void)
     | null;
   onerror: ((event: { error: string }) => void) | null;
@@ -34,6 +41,9 @@ export function Voice({
 }) {
   const [query, setQuery] = useState("");
   const [recording, setRecording] = useState(false);
+  const [status, setStatus] = useState("Ready when you are");
+  const starting = useRef(false);
+  const failed = useRef(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<Awaited<
@@ -48,20 +58,30 @@ export function Voice({
       webkitSpeechRecognition?: new () => Recognition;
     };
     setSupported(Boolean(w.SpeechRecognition || w.webkitSpeechRecognition));
+    starting.current = false;
+    setRecording(false);
+    setStatus("Ready when you are");
     return () => {
       if (recognition.current) {
         recognition.current.onend = null;
-        recognition.current.stop();
+        recognition.current.onresult = null;
+        recognition.current.onerror = null;
+        recognition.current.onstart = null;
+        recognition.current.onaudiostart = null;
+        recognition.current.onspeechstart = null;
+        recognition.current.onnomatch = null;
+        recognition.current.abort();
       }
       window.speechSynthesis?.cancel();
     };
-  }, []);
+  }, [farm.language]);
   async function analyze(text = query) {
     setError("");
     setBusy(true);
     try {
       const r = await voiceService.analyzeSpeech(text);
       setResult(r);
+      setStatus("Transcript received");
       record(r.transcript);
       if (spoken && window.speechSynthesis) {
         const u = new SpeechSynthesisUtterance(
@@ -76,9 +96,10 @@ export function Voice({
       setBusy(false);
     }
   }
-  async function start() {
+  function start() {
     setError("");
-    if (recording) {
+    if (recording || starting.current) {
+      setStatus("Finishing transcription…");
       recognition.current?.stop();
       return;
     }
@@ -89,51 +110,111 @@ export function Voice({
     const R = w.SpeechRecognition || w.webkitSpeechRecognition;
     if (!R) {
       setError(
-        "Voice recognition is unavailable in this browser. You can type your query or use a supported browser.",
+        "Speech recognition is unavailable. Open this page in Chrome or Edge, or use the typed intent demo below.",
+      );
+      return;
+    }
+    if (!window.isSecureContext) {
+      setError(
+        "Microphone access requires HTTPS or localhost. Open the secure website and try again.",
       );
       return;
     }
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      stream.getTracks().forEach((t) => t.stop());
+      window.speechSynthesis?.cancel();
       const r = new R();
       r.lang = speechLocale(farm.language);
       r.continuous = false;
-      r.interimResults = false;
+      r.interimResults = true;
       queryRef.current = "";
-      r.onresult = (e) => {
-        const text = Array.from(e.results)
-          .map((x) => x[0].transcript)
-          .join(" ");
-        queryRef.current = text;
-        setQuery(text);
+      failed.current = false;
+      starting.current = true;
+      setQuery("");
+      setResult(null);
+      setRecording(true);
+      setStatus("Waiting for microphone permission…");
+      r.onstart = () => {
+        starting.current = false;
+        setStatus("Listening — speak your question");
       };
-      r.onerror = (e) => {
-        queryRef.current = "";
-        setError(
-          `Speech recognition: ${e.error}. You can type your question below.`,
+      r.onaudiostart = () => setStatus("Microphone connected — speak now");
+      r.onspeechstart = () => setStatus("Speech detected — transcribing…");
+      r.onresult = (event) => {
+        const results = Array.from(event.results);
+        const text = results
+          .map((item) => item[0].transcript)
+          .join(" ")
+          .trim();
+        setQuery(text);
+        queryRef.current = results
+          .filter((item) => item.isFinal)
+          .map((item) => item[0].transcript)
+          .join(" ")
+          .trim();
+        setStatus(
+          queryRef.current
+            ? "Transcript received"
+            : "Speech detected — transcribing…",
         );
+      };
+      const fail = (message: string) => {
+        failed.current = true;
+        starting.current = false;
         setRecording(false);
+        setStatus("Voice session ended");
+        setError(message);
+      };
+      r.onnomatch = () =>
+        fail("Speech was not understood. Speak clearly and try again.");
+      r.onerror = (event) => {
+        const messages: Record<string, string> = {
+          "not-allowed":
+            "Microphone permission was denied. Allow microphone access in your browser site settings, then try again.",
+          "service-not-allowed":
+            "The browser speech service is blocked. Open this page in Chrome or Edge and allow microphone access.",
+          "audio-capture":
+            "No working microphone was found. Connect a microphone and check your device input settings.",
+          "no-speech":
+            "No speech was detected. Check your microphone and speak after tapping the microphone button.",
+          network:
+            "The browser speech service could not connect. Check your internet connection and try again.",
+          "language-not-supported":
+            "This browser speech service does not support the selected language. Try another language or use the typed intent demo.",
+          aborted:
+            "Voice capture was stopped. Tap the microphone to try again.",
+        };
+        fail(
+          messages[event.error] ||
+            "Speech recognition failed. Try again or use the typed intent demo below.",
+        );
       };
       r.onend = () => {
+        starting.current = false;
         setRecording(false);
-        if (queryRef.current) void analyze(queryRef.current);
+        recognition.current = null;
+        if (failed.current) return;
+        if (queryRef.current) {
+          setStatus("Transcript received — analyzing intent…");
+          void analyze(queryRef.current);
+        } else {
+          setStatus("Ready when you are");
+          setError(
+            "No final transcript was received. Tap the microphone and speak again, or analyze the text below.",
+          );
+        }
       };
       recognition.current = r;
+      // Start directly in the click gesture: browsers own microphone permission and capture.
       r.start();
-      setRecording(true);
     } catch {
+      starting.current = false;
+      setRecording(false);
+      setStatus("Voice session ended");
       setError(
-        "Microphone access failed. Check browser permissions or type your question.",
+        "Speech recognition could not start. Check microphone permissions and try again.",
       );
     }
   }
-  useEffect(() => {
-    if (new URLSearchParams(window.location.search).get("start") === "1") {
-      const timer = setTimeout(() => void start(), 200);
-      return () => clearTimeout(timer);
-    }
-  }, []);
   return (
     <Localized>
       {
@@ -147,6 +228,7 @@ export function Voice({
               <button
                 className="big-mic"
                 onClick={start}
+                disabled={busy}
                 aria-label={recording ? "Stop recording" : "Start speaking"}
               >
                 <Mic size={36} />
@@ -162,10 +244,15 @@ export function Voice({
                   />
                 ))}
               </div>
-              <span className="mono">
-                {recording ? "LISTENING — TAP TO STOP" : "READY WHEN YOU ARE"}
+              <span className="mono" role="status" aria-live="polite">
+                {status}
               </span>
             </div>
+            <p className="muted" role="status" aria-live="polite">
+              {recording
+                ? "Tap the microphone to stop. Your words appear below as you speak."
+                : "Tap the microphone and allow access. Speak a question; the final transcript is analyzed automatically."}
+            </p>
             {supported === false && (
               <div className="info-banner">
                 Voice recognition is unavailable in this browser. You can type
@@ -196,6 +283,27 @@ export function Voice({
                 {error}
               </p>
             )}
+            <div className="button-row">
+              <button
+                type="button"
+                className="button"
+                disabled={recording || busy}
+                onClick={() => {
+                  const text = translate(
+                    farm.language,
+                    "Is rain expected tomorrow?",
+                  );
+                  setQuery(text);
+                  void analyze(text);
+                }}
+              >
+                RUN SAMPLE INTENT DEMO
+              </button>
+            </div>
+            <p className="muted">
+              The sample demo uses prepared text. Live transcription uses your
+              browser speech service and may require internet access.
+            </p>
             <div className="sample-queries">
               <span className="mono">TRY A QUESTION</span>
               {[
@@ -235,7 +343,9 @@ export function Voice({
                   ].map(([k, v]) => (
                     <div key={k}>
                       <dt>{k}</dt>
-                      <dd data-preserve-text={k === "TRANSCRIPT" || undefined}>{v}</dd>
+                      <dd data-preserve-text={k === "TRANSCRIPT" || undefined}>
+                        {v}
+                      </dd>
                     </div>
                   ))}
                 </dl>

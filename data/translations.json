@@ -1303,5 +1303,123 @@
   ["network", "नेटवर्क त्रुटि", "ಜಾಲ ದೋಷ"],
   ["not-allowed", "अनुमति नहीं मिली", "ಅನುಮತಿ ದೊರೆತಿಲ್ಲ"],
   ["no-speech", "आवाज़ नहीं मिली", "ಧ್ವನಿ ಪತ್ತೆಯಾಗಿಲ್ಲ"],
-  ["audio-capture", "माइक्रोफ़ोन त्रुटि", "ಮೈಕ್ರೋಫೋನ್ ದೋಷ"]
+  ["audio-capture", "माइक्रोफ़ोन त्रुटि", "ಮೈಕ್ರೋಫೋನ್ ದೋಷ"],
+  ["Ready when you are", "बोलने के लिए तैयार", "ಮಾತನಾಡಲು ಸಿದ್ಧ"],
+  [
+    "Finishing transcription…",
+    "लिप्यंतरण पूरा हो रहा है…",
+    "ಲಿಪ್ಯಂತರ ಪೂರ್ಣಗೊಳ್ಳುತ್ತಿದೆ…"
+  ],
+  [
+    "Waiting for microphone permission…",
+    "माइक्रोफोन की अनुमति का इंतज़ार…",
+    "ಮೈಕ್ರೋಫೋನ್ ಅನುಮತಿಗಾಗಿ ಕಾಯುತ್ತಿದೆ…"
+  ],
+  [
+    "Listening — speak your question",
+    "सुन रहा है — अपना सवाल बोलें",
+    "ಕೇಳುತ್ತಿದೆ — ನಿಮ್ಮ ಪ್ರಶ್ನೆ ಕೇಳಿ"
+  ],
+  [
+    "Microphone connected — speak now",
+    "माइक्रोफोन जुड़ गया — अब बोलें",
+    "ಮೈಕ್ರೋಫೋನ್ ಸಂಪರ್ಕಿತ — ಈಗ ಮಾತನಾಡಿ"
+  ],
+  [
+    "Speech detected — transcribing…",
+    "आवाज़ मिली — लिप्यंतरण जारी…",
+    "ಧ್ವನಿ ಪತ್ತೆಯಾಗಿದೆ — ಲಿಪ್ಯಂತರ ನಡೆಯುತ್ತಿದೆ…"
+  ],
+  ["Transcript received", "लिप्यंतरण मिल गया", "ಲಿಪ್ಯಂತರ ಸ್ವೀಕರಿಸಲಾಗಿದೆ"],
+  ["Voice session ended", "वॉइस सत्र समाप्त", "ಧ್ವನಿ ಅಧಿವೇಶನ ಮುಗಿದಿದೆ"],
+  [
+    "Transcript received — analyzing intent…",
+    "लिप्यंतरण मिला — आशय की जाँच जारी…",
+    "ಲಿಪ್ಯಂತರ ಸ್ವೀಕರಿಸಲಾಗಿದೆ — ಉದ್ದೇಶ ವಿಶ್ಲೇಷಣೆ ನಡೆಯುತ್ತಿದೆ…"
+  ],
+  [
+    "RUN SAMPLE INTENT DEMO",
+    "नमूना आशय डेमो चलाएँ",
+    "ಮಾದರಿ ಉದ್ದೇಶ ಡೆಮೊ ಪ್ರಾರಂಭಿಸಿ"
+  ],
+  [
+    "Tap the microphone to stop. Your words appear below as you speak.",
+    "रोकने के लिए माइक्रोफोन दबाएँ। बोलते समय आपके शब्द नीचे दिखेंगे।",
+    "ನಿಲ್ಲಿಸಲು ಮೈಕ್ರೋಫೋನ್ ಒತ್ತಿ. ಮಾತನಾಡುವಾಗ ನಿಮ್ಮ ಪದಗಳು ಕೆಳಗೆ ಕಾಣಿಸುತ್ತವೆ."
+  ],
+  [
+    "Tap the microphone and allow access. Speak a question; the final transcript is analyzed automatically.",
+    "माइक्रोफोन दबाकर अनुमति दें। सवाल बोलें; अंतिम लिप्यंतरण का विश्लेषण अपने आप होगा।",
+    "ಮೈಕ್ರೋಫೋನ್ ಒತ್ತಿ ಅನುಮತಿ ನೀಡಿ. ಪ್ರಶ್ನೆ ಕೇಳಿ; ಅಂತಿಮ ಲಿಪ್ಯಂತರ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತದೆ."
+  ],
+  [
+    "The sample demo uses prepared text. Live transcription uses your browser speech service and may require internet access.",
+    "नमूना डेमो तैयार पाठ का उपयोग करता है। लाइव लिप्यंतरण ब्राउज़र की वॉइस सेवा से होता है और इंटरनेट की ज़रूरत हो सकती है।",
+    "ಮಾದರಿ ಡೆಮೊ ಸಿದ್ಧ ಪಠ್ಯವನ್ನು ಬಳಸುತ್ತದೆ. ನೇರ ಲಿಪ್ಯಂತರ ಬ್ರೌಸರ್ ಧ್ವನಿ ಸೇವೆಯನ್ನು ಬಳಸುತ್ತದೆ ಮತ್ತು ಇಂಟರ್ನೆಟ್ ಬೇಕಾಗಬಹುದು."
+  ],
+  [
+    "Speech recognition is unavailable. Open this page in Chrome or Edge, or use the typed intent demo below.",
+    "वॉइस पहचान उपलब्ध नहीं है। इस पेज को Chrome या Edge में खोलें, या नीचे लिखकर आशय डेमो चलाएँ।",
+    "ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ಲಭ್ಯವಿಲ್ಲ. ಈ ಪುಟವನ್ನು Chrome ಅಥವಾ Edge ನಲ್ಲಿ ತೆರೆಯಿರಿ ಅಥವಾ ಕೆಳಗಿನ ಪಠ್ಯ ಉದ್ದೇಶ ಡೆಮೊ ಬಳಸಿ."
+  ],
+  [
+    "Microphone access requires HTTPS or localhost. Open the secure website and try again.",
+    "माइक्रोफोन के लिए सुरक्षित वेबसाइट चाहिए। सुरक्षित वेबसाइट खोलकर फिर कोशिश करें।",
+    "ಮೈಕ್ರೋಫೋನ್ ಪ್ರವೇಶಕ್ಕೆ ಸುರಕ್ಷಿತ ವೆಬ್‌ಸೈಟ್ ಬೇಕು. ಸುರಕ್ಷಿತ ವೆಬ್‌ಸೈಟ್ ತೆರೆಯಿರಿ ಮತ್ತು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
+  ],
+  [
+    "Speech was not understood. Speak clearly and try again.",
+    "बात समझ नहीं आई। साफ़ बोलकर फिर कोशिश करें।",
+    "ಮಾತು ಅರ್ಥವಾಗಲಿಲ್ಲ. ಸ್ಪಷ್ಟವಾಗಿ ಮಾತನಾಡಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
+  ],
+  [
+    "Microphone permission was denied. Allow microphone access in your browser site settings, then try again.",
+    "माइक्रोफोन की अनुमति नहीं मिली। ब्राउज़र की साइट सेटिंग में माइक्रोफोन अनुमति देकर फिर कोशिश करें।",
+    "ಮೈಕ್ರೋಫೋನ್ ಅನುಮತಿ ನಿರಾಕರಿಸಲಾಗಿದೆ. ಬ್ರೌಸರ್ ಸೈಟ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಮೈಕ್ರೋಫೋನ್ ಅನುಮತಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
+  ],
+  [
+    "The browser speech service is blocked. Open this page in Chrome or Edge and allow microphone access.",
+    "ब्राउज़र की वॉइस सेवा अवरुद्ध है। Chrome या Edge में खोलकर माइक्रोफोन अनुमति दें।",
+    "ಬ್ರೌಸರ್ ಧ್ವನಿ ಸೇವೆ ನಿರ್ಬಂಧಿತವಾಗಿದೆ. Chrome ಅಥವಾ Edge ನಲ್ಲಿ ಪುಟ ತೆರೆಯಿರಿ ಮತ್ತು ಮೈಕ್ರೋಫೋನ್ ಅನುಮತಿಸಿ."
+  ],
+  [
+    "No working microphone was found. Connect a microphone and check your device input settings.",
+    "माइक्रोफोन नहीं मिला। माइक्रोफोन जोड़ें और डिवाइस की इनपुट सेटिंग जाँचें।",
+    "ಕಾರ್ಯನಿರ್ವಹಿಸುವ ಮೈಕ್ರೋಫೋನ್ ಸಿಗಲಿಲ್ಲ. ಮೈಕ್ರೋಫೋನ್ ಸಂಪರ್ಕಿಸಿ ಸಾಧನದ ಇನ್‌ಪುಟ್ ಸೆಟ್ಟಿಂಗ್ ಪರಿಶೀಲಿಸಿ."
+  ],
+  [
+    "No speech was detected. Check your microphone and speak after tapping the microphone button.",
+    "आवाज़ नहीं मिली। माइक्रोफोन जाँचें और बटन दबाने के बाद बोलें।",
+    "ಧ್ವನಿ ಪತ್ತೆಯಾಗಿಲ್ಲ. ಮೈಕ್ರೋಫೋನ್ ಪರಿಶೀಲಿಸಿ ಬಟನ್ ಒತ್ತಿದ ನಂತರ ಮಾತನಾಡಿ."
+  ],
+  [
+    "The browser speech service could not connect. Check your internet connection and try again.",
+    "ब्राउज़र की वॉइस सेवा जुड़ नहीं सकी। इंटरनेट जाँचकर फिर कोशिश करें।",
+    "ಬ್ರೌಸರ್ ಧ್ವನಿ ಸೇವೆ ಸಂಪರ್ಕಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
+  ],
+  [
+    "This browser speech service does not support the selected language. Try another language or use the typed intent demo.",
+    "ब्राउज़र की वॉइस सेवा इस भाषा को सपोर्ट नहीं करती। दूसरी भाषा चुनें या लिखकर डेमो चलाएँ।",
+    "ಬ್ರೌಸರ್ ಧ್ವನಿ ಸೇವೆ ಆಯ್ಕೆ ಮಾಡಿದ ಭಾಷೆಯನ್ನು ಬೆಂಬಲಿಸುವುದಿಲ್ಲ. ಬೇರೆ ಭಾಷೆ ಅಥವಾ ಪಠ್ಯ ಡೆಮೊ ಬಳಸಿ."
+  ],
+  [
+    "Voice capture was stopped. Tap the microphone to try again.",
+    "वॉइस कैप्चर रुक गया। फिर कोशिश करने के लिए माइक्रोफोन दबाएँ।",
+    "ಧ್ವನಿ ಸೆರೆಹಿಡಿಯುವಿಕೆ ನಿಂತಿದೆ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಲು ಮೈಕ್ರೋಫೋನ್ ಒತ್ತಿ."
+  ],
+  [
+    "Speech recognition failed. Try again or use the typed intent demo below.",
+    "वॉइस पहचान विफल हुई। फिर कोशिश करें या नीचे लिखकर डेमो चलाएँ।",
+    "ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ವಿಫಲವಾಗಿದೆ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ ಅಥವಾ ಕೆಳಗಿನ ಪಠ್ಯ ಡೆಮೊ ಬಳಸಿ."
+  ],
+  [
+    "No final transcript was received. Tap the microphone and speak again, or analyze the text below.",
+    "अंतिम लिप्यंतरण नहीं मिला। माइक्रोफोन दबाकर फिर बोलें, या नीचे लिखे पाठ का विश्लेषण करें।",
+    "ಅಂತಿಮ ಲಿಪ್ಯಂತರ ಸಿಗಲಿಲ್ಲ. ಮೈಕ್ರೋಫೋನ್ ಒತ್ತಿ ಮತ್ತೆ ಮಾತನಾಡಿ ಅಥವಾ ಕೆಳಗಿನ ಪಠ್ಯ ವಿಶ್ಲೇಷಿಸಿ."
+  ],
+  [
+    "Speech recognition could not start. Check microphone permissions and try again.",
+    "वॉइस पहचान शुरू नहीं हुई। माइक्रोफोन अनुमति जाँचकर फिर कोशिश करें।",
+    "ಧ್ವನಿ ಗುರುತಿಸುವಿಕೆ ಪ್ರಾರಂಭವಾಗಲಿಲ್ಲ. ಮೈಕ್ರೋಫೋನ್ ಅನುಮತಿ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
+  ]
 ]

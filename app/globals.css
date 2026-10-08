@@ -1,5 +1,7 @@
 @import "tailwindcss";
 :root {
+  --text-scale: 1.1;
+  --text-min: 10px;
   --ink: #1c241e;
   --muted: #747970;
   --green: #bced78;
@@ -1599,7 +1601,8 @@ html:is([lang="hi"], [lang="kn"]) body {
 html:is([lang="hi"], [lang="kn"]) :is(h1, h2, h3) {
   line-height: 1.45;
 }
-html:is([lang="hi"], [lang="kn"]) :is(.eyebrow, .badge, .stat-label, nav a, button, label) {
+html:is([lang="hi"], [lang="kn"])
+  :is(.eyebrow, .badge, .stat-label, nav a, button, label) {
   letter-spacing: normal;
 }
 html:is([lang="hi"], [lang="kn"]) .badge {
@@ -1608,5 +1611,26 @@ html:is([lang="hi"], [lang="kn"]) .badge {
 @media (max-width: 600px) {
   html:is([lang="hi"], [lang="kn"]) .stats-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* Keep uploaded media and larger text inside narrow grid columns. */
+.panel {
+  min-width: 0;
+}
+.upload-zone .button {
+  max-width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.upload-zone input {
+  min-width: 0;
+  max-width: 100%;
+}
+@media (max-width: 600px) {
+  html {
+    scroll-padding-bottom: 100px;
+  }
+  .content :is(button, input, textarea, select) {
+    scroll-margin-block: 100px;
   }
 }
