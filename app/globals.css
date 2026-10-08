@@ -1634,3 +1634,158 @@ html:is([lang="hi"], [lang="kn"]) .badge {
     scroll-margin-block: 100px;
   }
 }
+
+/* A calmer workspace with enough room for all three scripts. */
+.content {
+  padding-bottom: 40px;
+}
+.page-header {
+  margin-bottom: 32px;
+}
+.panel,
+.stat {
+  border-color: #d2d9cd;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px #1c241e05;
+}
+.panel {
+  padding: 28px;
+}
+.panel-heading {
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px 20px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+}
+.panel-heading h2 {
+  flex: 1 1 180px;
+}
+.panel-heading .badge {
+  max-width: 100%;
+  white-space: normal;
+}
+.button,
+.field :is(input, select, textarea) {
+  border-radius: 8px;
+}
+.sidebar nav a {
+  border-radius: 8px;
+}
+.two-columns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+.voice-workspace {
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 32px;
+}
+.voice-workspace .panel {
+  margin-bottom: 0;
+}
+.voice-intro {
+  color: var(--muted);
+  margin-bottom: 28px;
+  max-width: 48ch;
+}
+.voice-workspace .field {
+  margin-bottom: 24px;
+}
+.voice-workspace .field > label {
+  text-transform: none;
+  font-family: inherit;
+  letter-spacing: normal;
+  font-weight: 600;
+  font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
+}
+.voice-workspace .voice-stage {
+  background: #f0f5e9;
+  border: 1px solid #e1e8d9;
+  border-radius: 12px;
+  padding: 28px 20px;
+  margin: 24px 0 16px;
+  gap: 18px;
+}
+.voice-workspace .big-mic {
+  width: 84px;
+  height: 84px;
+  box-shadow: 0 5px 14px #70964a25;
+}
+.voice-workspace .voice-stage .mono {
+  font-family: inherit;
+  text-align: center;
+  line-height: 1.6;
+}
+.voice-hint {
+  color: var(--muted);
+  text-align: center;
+  margin: 0 0 16px;
+  font-size: max(var(--text-min, 0px), calc(12px * var(--text-scale, 1)));
+}
+.voice-help {
+  color: var(--muted);
+  margin-bottom: 28px;
+}
+.voice-workspace summary {
+  cursor: pointer;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.voice-workspace details p {
+  margin: 14px 0 0;
+}
+.voice-workspace form {
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.voice-workspace .button-row {
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+.voice-workspace .button {
+  max-width: 100%;
+  white-space: normal;
+}
+.voice-examples {
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+.voice-workspace .sample-queries {
+  margin-top: 18px;
+  gap: 12px;
+}
+.voice-result .empty {
+  border: 0;
+  background: #f3f5ee;
+  border-radius: 12px;
+  padding: 64px 28px;
+  line-height: 1.8;
+}
+.voice-result .result-list > div {
+  padding: 18px 0;
+}
+@media (max-width: 1150px) {
+  .voice-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .panel {
+    padding: 22px 18px;
+  }
+  .two-columns {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .panel-heading {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+  }
+  .voice-workspace .voice-stage {
+    padding: 24px 16px;
+  }
+  .voice-result .empty {
+    padding: 36px 20px;
+  }
+}
