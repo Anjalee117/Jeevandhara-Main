@@ -661,6 +661,66 @@ svg {
   letter-spacing: 0.6px;
   color: var(--muted);
 }
+.project-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 12px 7px 7px;
+  border: 1px solid #d0dfc4;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f8fced, #e9f3df);
+  color: #315a35;
+  box-shadow: 0 2px 8px #243b2010;
+  font-size: max(var(--text-min, 0px), calc(13px * var(--text-scale, 1)));
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    background 160ms,
+    box-shadow 160ms;
+}
+.project-status:hover {
+  background: #e3f0d6;
+  box-shadow: 0 3px 12px #243b2020;
+}
+.project-status-icon {
+  display: grid;
+  place-items: center;
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  background: #355d39;
+  color: #eaf6dc;
+}
+.project-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #658d45;
+}
+.app-footer,
+.landing > footer {
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+.creator-credit,
+.creator-email {
+  font-family: inherit;
+  font-size: max(var(--text-min, 0px), calc(13px * var(--text-scale, 1)));
+  letter-spacing: 0;
+}
+.creator-credit strong {
+  color: var(--ink);
+}
+.creator-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #355d39;
+}
+.creator-email:hover {
+  text-decoration: underline;
+}
 .field {
   display: flex;
   flex-direction: column;

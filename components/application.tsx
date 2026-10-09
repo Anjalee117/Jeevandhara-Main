@@ -312,8 +312,15 @@ export function Application({ module }: { module: string }) {
                 </Link>
               </section>
               <footer>
-                JEEVANDHARA{" "}
-                <span>Built around the farmer. Powered by context.</span>
+                <span className="creator-credit">
+                  Made by <strong>Anjalee Dev</strong>
+                </span>
+                <a
+                  className="creator-email"
+                  href="mailto:anjaleemalhotra305@gmail.com"
+                >
+                  Anjalee@dev.com <ArrowUpRight size={16} />
+                </a>
               </footer>
             </main>
           }
@@ -401,7 +408,17 @@ export function Application({ module }: { module: string }) {
                   </strong>
                 </div>
                 <div className="topbar-right">
-                  <Badge tone="green">● {t("Project prototype")}</Badge>
+                  <Link
+                    href="/system"
+                    className="project-status"
+                    aria-label={t("View project status")}
+                  >
+                    <span className="project-status-icon">
+                      <Leaf size={17} aria-hidden="true" />
+                    </span>
+                    <span>{t("Prototype")}</span>
+                    <span className="project-status-dot" aria-hidden="true" />
+                  </Link>
                   <select
                     aria-label="Language"
                     value={farm.language}
@@ -1014,7 +1031,15 @@ export function Application({ module }: { module: string }) {
                 )}
               </main>
               <footer className="app-footer">
-                <Link href="/system">System status ↗</Link>
+                <span className="creator-credit">
+                  Made by <strong>Anjalee Dev</strong>
+                </span>
+                <a
+                  className="creator-email"
+                  href="mailto:anjaleemalhotra305@gmail.com"
+                >
+                  Anjalee@dev.com <ArrowUpRight size={16} />
+                </a>
               </footer>
             </div>
             <nav className="mobile-nav">
