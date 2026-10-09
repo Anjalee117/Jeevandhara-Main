@@ -19,17 +19,17 @@ const routes = [
 for (const language of ["hi", "kn"])
   test(`${language}: all route content is localized`, async ({ page }) => {
     test.setTimeout(60000);
+    await page.route("https://api.open-meteo.com/**", (route) => route.abort());
+    await page.route("https://geocoding-api.open-meteo.com/**", (route) =>
+      route.abort(),
+    );
     await page.goto("/dashboard");
     await page.locator(".topbar select").selectOption(language);
     const missing: Record<string, string[]> = {};
     for (const route of routes) {
       await page.goto("/" + route);
       await expect(page.locator("html")).toHaveAttribute("lang", language);
-      if (route !== "dashboard") {
-        await expect(page.locator(".module-scope")).toHaveCount(1);
-        await page.locator(".module-scope summary").click();
-        await expect(page.locator(".module-scope dd")).toHaveCount(2);
-      }
+      await expect(page.locator(".module-scope")).toHaveCount(0);
       const text = await page.evaluate(() => {
         const walker = document.createTreeWalker(
           document.body,
@@ -114,6 +114,10 @@ for (const language of ["hi", "kn"] as Language[])
   }) => {
     test.setTimeout(60000);
     const t = (text: string) => translate(language, text);
+    await page.route("https://api.open-meteo.com/**", (route) => route.abort());
+    await page.route("https://geocoding-api.open-meteo.com/**", (route) =>
+      route.abort(),
+    );
     await page.goto("/dashboard");
     await page.locator(".topbar select").selectOption(language);
     await page.locator(".action-row button").first().click();
@@ -128,6 +132,10 @@ for (const language of ["hi", "kn"] as Language[])
       .click();
     await expect(page.getByRole("status")).toContainText(
       t("Farm saved. All modules now use your updated context."),
+    );
+    await page.route("https://api.open-meteo.com/**", (route) => route.abort());
+    await page.route("https://geocoding-api.open-meteo.com/**", (route) =>
+      route.abort(),
     );
     await page.goto("/dashboard");
     await expect(page.locator(".stat strong").first()).toHaveText(

@@ -1,4 +1,5 @@
 "use client";
+import { ProjectModel } from "@/components/project-model";
 import { Localized } from "@/components/localization";
 import Link from "next/link";
 import { translate } from "@/lib/i18n";
@@ -52,6 +53,7 @@ export function Schemes({
     <Localized>
       {
         <>
+          <ProjectModel kind="schemes" />
           <div className="info-banner">
             ILLUSTRATIVE SCHEMES / Names, benefits, deadlines and criteria are
             fictional demo data.
