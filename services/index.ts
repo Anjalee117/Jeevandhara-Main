@@ -1,3 +1,4 @@
+import type { DiseaseModelOutput } from "@/types/model-contracts";
 import { Farm, Action, Scheme, ThreatEvent } from "@/types";
 import { schemes, documents, demoState, crops } from "@/data/demo";
 import { translate, type Language } from "@/lib/i18n";
@@ -168,16 +169,28 @@ export const knowledgeService = {
   },
 };
 export const actionPlannerService = {
-  generateActions(farm: Farm): Action[] {
-    const weather = weatherService.getForecast(farm);
+  generateActions(
+    farm: Farm,
+    weather = weatherService.getForecast(farm),
+  ): Action[] {
     return [
       {
         id: `rain-${farm.crop}-${farm.location}`,
-        title: "Delay irrigation; inspect drainage",
-        priority: "HIGH",
+        title:
+          weather.wind >= 40
+            ? "Secure equipment; avoid spraying"
+            : weather.temperature >= 38
+              ? "Protect young plants from heat"
+              : weather.rain >= 60
+                ? "Delay irrigation; inspect drainage"
+                : "Check soil moisture before irrigation",
+        priority:
+          weather.rain >= 60 || weather.wind >= 40 || weather.temperature >= 38
+            ? "HIGH"
+            : "MEDIUM",
         reason: `Rain probability ${weather.rain}%. ${farm.crop}, ${farm.soil}, ${farm.irrigation} irrigation.`,
         confidence: 88,
-        source: "Mock forecast + farm profile",
+        source: "Weather + farm profile",
         time: "NOW",
         status: "active",
       },
@@ -228,7 +241,7 @@ export const actionPlannerService = {
   },
 };
 export const cropHealthService = {
-  async analyzeImage(file: File, farm: Farm) {
+  async analyzeImage(file: File, farm: Farm): Promise<DiseaseModelOutput> {
     if (!file.type.startsWith("image/") || file.size > 10 * 1024 * 1024)
       throw new Error("Upload an image smaller than 10 MB.");
     await wait();

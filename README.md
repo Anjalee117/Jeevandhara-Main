@@ -6,7 +6,7 @@ Jeevandhara is a voice-first agricultural decision and action platform that brin
 
 This repository contains a working, interactive product prototype built with **Next.js, React, TypeScript and Tailwind CSS**. The application shares farmer context across its modules and runs in demo mode without login, API keys, an external backend or physical IoT devices.
 
-> **Demo status:** Agricultural data and recommendations are illustrative. Crop analysis uses a mock result, schemes use fictional criteria, and sensors are simulated. No external AI models, government feeds or physical hardware are connected.
+> **Project prototype:** Disease detection, threat detection and government schemes are the three primary model modules. Their project models will be connected later; current model outputs and scheme criteria are illustrative and sensors are simulated. Weather supports live Open-Meteo forecasts and phone-entered readings.
 
 ## Repository description
 
@@ -25,7 +25,7 @@ Suggested description for the GitHub repository's **About** field:
 | Government Schemes       | Search, crop/state/size/category/irrigation filters, deterministic eligibility and explanations.                                                            |
 | Crop Health              | Image selection or drag/drop, preview, removal, validation, mock analysis and action creation.                                                              |
 | Market Intelligence      | Crop selector, interactive price chart, market comparison and illustrative price/distance recommendations.                                                  |
-| Weather Intelligence     | Location-dependent mock forecast, seven-day outlook and weather-based actions.                                                                              |
+| Weather Intelligence     | Live farm-location forecast, device location, manual phone readings, weather alerts and weather-based actions.                                                                              |
 | Threat Monitor           | Seven simulated devices, live reading updates, event generation, alert acknowledgement and history.                                                         |
 | Action Planner           | Now/today/this-week views, decision factors, completion history and persisted 24-hour snoozes.                                                              |
 | Knowledge Library        | Keyword and category search, relevance scores and source document inspection.                                                                               |
@@ -152,7 +152,8 @@ For future integrations, replace the service implementations behind their existi
 - **Voice:** Device transcription is the default: browser microphone capture → recorded playback → 16 kHz mono audio → a dedicated Web Worker running multilingual Whisper Base → transcript → local intent analysis. Audio stays on the device. The first use downloads model files from Hugging Face and WASM from jsDelivr; later uses can reuse the browser cache. Short recordings stop automatically after 20 seconds. Accuracy depends on language, audio and the small model. The optional browser speech service provides interim transcription; a service/network failure switches to device transcription for the next recording. Tap the microphone and allow browser access. In browser speech mode, interim words appear in the question field. Device mode returns text after recording stops. Both final transcripts automatically run the intent demo. Permission, missing microphone, silence and network failures offer retry guidance. The separately labelled sample intent demo works without microphone access. Speech recognition depends on browser support and may use a browser-provider network service. Microphone access requires HTTPS or localhost. A typed fallback is available. Interface labels, descriptions and built-in demo results are translated into Hindi and Kannada. Farmer-entered text, uploaded filenames and hardware identifiers retain their original values.
 - **Crop analysis:** Uploads are validated and previewed, but pixels are not classified. The crop-aware analysis response and confidence are fixed demo outputs.
 - **Schemes and knowledge:** Catalog entries, criteria, deadlines and source documents are illustrative, not official government information or a connected RAG system.
-- **Markets and weather:** Prices, distance values and forecasts are generated mock data. Market distances are not calculated from the farmer's actual location.
+- **Market:** Prices and distances remain demo data. Market distances are not calculated from the farmer's actual location.
+- **Weather:** Live data comes from Open-Meteo (with attribution), using saved farm location or explicitly allowed device location. The demo district uses approximate coordinates, not a farm boundary. Readings are cached for 15 minutes; active weather views refresh periodically. Manual phone readings persist per farm location and carry their entry timestamp. A browser cannot read a separate phone weather app. Manual readings do not fabricate daily forecasts. Offline sample values are identified as sample weather. Weather alerts and planner suggestions use the current shared reading. IMD/government forecast feeds can later replace the weather-service adapter.
 - **IoT:** Sensor readings and camera verification are simulated. No ESP32 or other hardware is connected.
 - **Recommendations:** Confidence values are illustrative. Verify real decisions with current official sources and local agricultural experts.
 
@@ -251,4 +252,4 @@ RUN_DEVICE_MODEL_TEST=1 npx playwright test tests/device-voice.spec.ts --project
 
 The generated weather-question fixture is synthetic speech. The check uses it as a virtual microphone input, actual MediaRecorder capture, and unmocked local model inference.
 
-Each of the 13 feature modules has an expandable Future scope section showing current capabilities and planned integrations. These are roadmap descriptions; they do not claim that future services are connected. The dashboard omits repeated technical headings and decorative panel labels.
+The central dashboard highlights the three project-model tabs. Supporting modules share farmer data and weather. Generic future-scope sections are removed. Each core tab has a concise model-connection explanation and an output area. Proposed adapter contracts in types/model-contracts.ts describe disease diagnosis/confidence/recommendation, threat events and schemes/eligibility/sources; map each trained model response at its service boundary when integrating.

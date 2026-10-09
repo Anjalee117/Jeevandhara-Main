@@ -1,4 +1,10 @@
 import { test, expect } from "@playwright/test";
+test.beforeEach(async ({ page }) => {
+  await page.route("https://api.open-meteo.com/**", (route) => route.abort());
+  await page.route("https://geocoding-api.open-meteo.com/**", (route) =>
+    route.abort(),
+  );
+});
 test("landing enters functional dashboard", async ({ page }) => {
   await page.goto("/");
   await page

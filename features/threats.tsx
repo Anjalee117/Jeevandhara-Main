@@ -1,4 +1,5 @@
 "use client";
+import { ProjectModel } from "@/components/project-model";
 import { Localized } from "@/components/localization";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -33,6 +34,7 @@ export function Threats({
     <Localized>
       {
         <>
+          <ProjectModel kind="threat" />
           <div className="toolbar">
             <Badge tone="yellow">
               SIMULATION MODE / NO PHYSICAL DEVICES CONNECTED

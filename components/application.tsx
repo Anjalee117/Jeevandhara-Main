@@ -1,5 +1,6 @@
 "use client";
-import { ModuleScope } from "@/components/module-scope";
+import { WeatherControls } from "@/components/weather-controls";
+import { useWeather } from "@/lib/use-weather";
 import { LocaleProvider, Localized } from "@/components/localization";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -55,10 +56,10 @@ const navigation = [
   ["voice", "Voice AI", "ಧ್ವನಿ AI", Mic],
   ["farm", "My farm", "ನನ್ನ ಕೃಷಿ", Tractor],
   ["schemes", "Government schemes", "ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು", Landmark],
-  ["crop-health", "Crop health", "ಬೆಳೆ ಆರೋಗ್ಯ", ScanLine],
+  ["crop-health", "Disease detection", "ರೋಗ ಪತ್ತೆ", ScanLine],
   ["market", "Market intelligence", "ಮಾರುಕಟ್ಟೆ", ChartNoAxesCombined],
   ["weather", "Weather intelligence", "ಹವಾಮಾನ", CloudRain],
-  ["threats", "Threat monitor", "ಅಪಾಯ ಮೇಲ್ವಿಚಾರಣೆ", ShieldAlert],
+  ["threats", "Threat detection", "ಅಪಾಯ ಪತ್ತೆ", ShieldAlert],
   ["actions", "Action planner", "ಕಾರ್ಯ ಯೋಜನೆ", ListChecks],
   ["knowledge", "Knowledge library", "ಜ್ಞಾನ ಭಂಡಾರ", BookOpen],
 ] as const;
@@ -132,14 +133,47 @@ export function Application({ module }: { module: string }) {
     }
   };
   const farm = state.farm,
-    weather = weatherService.getForecast(farm),
     market = marketService.getPrices(farm.crop);
+  let weather = weatherService.getForecast(farm);
+  const weatherData = useWeather(
+    farm,
+    ready && ["dashboard", "weather", "actions", "context"].includes(module),
+  );
+  if (weatherData.reading) weather = weatherData.reading;
   const t = (text: string, kannada?: string) =>
     translate(farm.language, text, kannada);
   useEffect(() => {
     document.documentElement.lang = farm.language;
   }, [farm.language]);
-  const generated = actionPlannerService.generateActions(farm);
+  useEffect(() => {
+    const r = weatherData.reading;
+    if (!r || (r.rain < 70 && r.wind < 40 && r.temperature < 38)) return;
+    const id =
+      "weather-alert:" +
+      r.location +
+      ":" +
+      (r.wind >= 40 ? "wind" : r.temperature >= 38 ? "heat" : "rain") +
+      ":" +
+      r.updatedAt.slice(0, 10);
+    const title =
+      r.wind >= 40
+        ? "Strong wind alert"
+        : r.temperature >= 38
+          ? "High temperature alert"
+          : "Rain alert";
+    setState((prev) =>
+      prev.notifications.some((n) => n.id === id)
+        ? prev
+        : {
+            ...prev,
+            notifications: [
+              { id, title, type: "Weather", route: "/weather", read: false },
+              ...prev.notifications,
+            ],
+          },
+    );
+  }, [weatherData.reading]);
+  const generated = actionPlannerService.generateActions(farm, weather);
   const actions = [
     ...generated.map((a) =>
       state.actions.find((x) => x.id === a.id)
@@ -367,7 +401,7 @@ export function Application({ module }: { module: string }) {
                   </strong>
                 </div>
                 <div className="topbar-right">
-                  <Badge tone="green">● {t("DEMO MODE")}</Badge>
+                  <Badge tone="green">● {t("Project prototype")}</Badge>
                   <select
                     aria-label="Language"
                     value={farm.language}
@@ -450,6 +484,45 @@ export function Application({ module }: { module: string }) {
                         Edit farm <ArrowUpRight size={14} />
                       </Link>
                     </div>
+                    <section
+                      className="project-modules"
+                      aria-label="Project modules"
+                    >
+                      {[
+                        [
+                          "crop-health",
+                          "Disease detection",
+                          "Check crop images and view disease results.",
+                          ScanLine,
+                        ],
+                        [
+                          "threats",
+                          "Threat detection",
+                          "Monitor field activity and review alerts.",
+                          ShieldAlert,
+                        ],
+                        [
+                          "schemes",
+                          "Government schemes",
+                          "Find relevant schemes and check eligibility.",
+                          Landmark,
+                        ],
+                      ].map(([path, label, description, Icon]) => {
+                        const I = Icon as typeof Activity;
+                        return (
+                          <Link
+                            key={String(path)}
+                            href={"/" + path}
+                            className="project-module"
+                          >
+                            <I size={24} />
+                            <h2>{String(label)}</h2>
+                            <p>{String(description)}</p>
+                            <ArrowUpRight size={18} />
+                          </Link>
+                        );
+                      })}
+                    </section>
                     <div className="stats-grid">
                       <Stat
                         label={t("CURRENT CROP", "ಪ್ರಸ್ತುತ ಬೆಳೆ")}
@@ -573,7 +646,17 @@ export function Application({ module }: { module: string }) {
                             <span className="mono">
                               {t("WEATHER ADVISORY")}
                             </span>
-                            <h3>{t("Rain is on the horizon.")}</h3>
+                            <h3>
+                              {t(
+                                weather.wind >= 40
+                                  ? "Strong wind alert"
+                                  : weather.temperature >= 38
+                                    ? "High temperature alert"
+                                    : weather.rain >= 60
+                                      ? "Rain is on the horizon."
+                                      : "Weather overview",
+                              )}
+                            </h3>
                           </div>
                           <Badge tone="yellow">WATCH</Badge>
                         </div>
@@ -650,10 +733,7 @@ export function Application({ module }: { module: string }) {
                 )}
                 {module === "weather" && (
                   <>
-                    <div className="info-banner">
-                      MOCK FORECAST / Generated for {farm.location}; no live
-                      weather connection.
-                    </div>
+                    <WeatherControls {...weatherData} />
                     <div className="stats-grid">
                       <Stat
                         label="TEMPERATURE"
@@ -663,20 +743,38 @@ export function Application({ module }: { module: string }) {
                       <Stat
                         label="HUMIDITY"
                         value={`${weather.humidity}%`}
-                        detail="Simulated relative humidity"
+                        detail={
+                          weatherData.reading
+                            ? "Current humidity"
+                            : "Sample humidity"
+                        }
                       />
                       <Stat
                         label="RAIN PROBABILITY"
                         value={`${weather.rain}%`}
-                        detail="Illustrative next 24 hours"
+                        detail={
+                          weatherData.reading
+                            ? "Rain probability"
+                            : "Sample rain probability"
+                        }
                       />
                       <Stat
                         label="WIND"
                         value={`${weather.wind} km/h`}
-                        detail="Simulated wind speed"
+                        detail={
+                          weatherData.reading
+                            ? "Current wind speed"
+                            : "Sample wind speed"
+                        }
                       />
                     </div>
-                    <Panel title="7-day forecast" label="MOCK DATA">
+                    <Panel title="7-day forecast">
+                      {!weather.days.length && (
+                        <p>
+                          Refresh live weather to see the forecast. Phone
+                          readings contain current values only.
+                        </p>
+                      )}
                       <div className="forecast">
                         {weather.days.map((d) => (
                           <div key={d.day}>
@@ -701,8 +799,8 @@ export function Application({ module }: { module: string }) {
                           className="button green"
                           onClick={() =>
                             addAction(
-                              "Check drainage before rain",
-                              `${weather.rain}% demo rain probability in ${farm.location}.`,
+                              weather.recommendation,
+                              `${weather.rain}% rain probability in ${farm.location}.`,
                             )
                           }
                         >
@@ -883,8 +981,8 @@ export function Application({ module }: { module: string }) {
                 {module === "system" && (
                   <>
                     <div className="info-banner">
-                      No external AI models, government feeds or physical
-                      hardware are connected.
+                      Project models are not connected yet. Weather can use live
+                      or phone-entered readings.
                     </div>
                     <Panel title="Service health" label="DEMO ARCHITECTURE">
                       <div className="service-grid">
@@ -892,13 +990,21 @@ export function Application({ module }: { module: string }) {
                           <div key={s.name}>
                             <Activity size={20} />
                             <h3>{s.name}</h3>
-                            <Badge tone="green">{s.status}</Badge>
+                            <Badge tone="green">
+                              {s.name === "Weather Service" &&
+                              weatherData.reading?.source === "live"
+                                ? "CONNECTED"
+                                : s.status}
+                            </Badge>
                             <p>
-                              {s.status === "LOCAL"
-                                ? "Browser context and storage"
-                                : s.status === "SIMULATION"
-                                  ? "Generated sensor readings"
-                                  : "Replaceable mock implementation"}
+                              {s.name === "Weather Service" &&
+                              weatherData.reading?.source === "live"
+                                ? "Connected weather service"
+                                : s.status === "LOCAL"
+                                  ? "Browser context and storage"
+                                  : s.status === "SIMULATION"
+                                    ? "Generated sensor readings"
+                                    : "Replaceable mock implementation"}
                             </p>
                           </div>
                         ))}
@@ -906,7 +1012,6 @@ export function Application({ module }: { module: string }) {
                     </Panel>
                   </>
                 )}
-                <ModuleScope module={module} />
               </main>
               <footer className="app-footer">
                 <Link href="/system">System status ↗</Link>

@@ -1,4 +1,5 @@
 "use client";
+import { ProjectModel } from "@/components/project-model";
 import { Localized } from "@/components/localization";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -67,6 +68,7 @@ export function CropHealth({
       {
         <div className="two-columns">
           <Panel title={`${farm.crop} image analysis`} label="DEMO MODEL">
+            <ProjectModel kind="disease" />
             <p>
               Upload a leaf or plant image. The demo returns an illustrative
               result for your selected crop.
