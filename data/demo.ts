@@ -1,5 +1,18 @@
 import { AppState, Scheme } from "@/types";
-export const crops = ["Tomato", "Ragi", "Jowar", "Onion", "Potato"];
+export const crops = [
+  "Tomato",
+  "Ragi",
+  "Jowar",
+  "Onion",
+  "Potato",
+  "Apple",
+  "Banana",
+  "Blueberry",
+  "Cherry",
+  "Grape",
+  "Peach",
+  "Strawberry",
+];
 export const demoState: AppState = {
   farm: {
     name: "Anjalee",

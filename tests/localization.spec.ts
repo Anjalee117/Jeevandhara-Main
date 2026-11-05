@@ -159,6 +159,35 @@ for (const language of ["hi", "kn"] as Language[])
       .getByRole("button", { name: t("Close dialog"), exact: true })
       .click();
     await page.goto("/crop-health");
+    await page.route("**/api/crop-health", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          model_version: "public-fruit-v1",
+          status: "candidate_found",
+          uncertainty_reason: null,
+          prediction: {
+            label: "apple__black_rot",
+            crop: "apple",
+            condition: "black_rot",
+            confidence: 0.921,
+          },
+          candidates: [
+            {
+              label: "apple__black_rot",
+              crop: "apple",
+              condition: "black_rot",
+              confidence: 0.921,
+            },
+          ],
+          confidence_threshold: 0.505,
+          disclaimer:
+            "Research result only. Do not apply treatment or pesticide decisions without local expert review.",
+        }),
+      });
+    });
+    await page.getByLabel(t("Plant shown in photo")).selectOption("Apple");
     await page.getByLabel(t("Upload crop image")).setInputFiles({
       name: "crop.png",
       mimeType: "image/png",
@@ -172,12 +201,15 @@ for (const language of ["hi", "kn"] as Language[])
       .click();
     await expect(
       page.getByRole("heading", {
-        name: t("Possible leaf stress (illustrative)"),
+        name: t("Black Rot"),
       }),
     ).toBeVisible();
     expect(await untranslated(page)).toEqual([]);
     await page
-      .getByRole("button", { name: t("CREATE ACTION"), exact: true })
+      .getByRole("button", {
+        name: t("CREATE INSPECTION ACTION"),
+        exact: true,
+      })
       .click();
     await page.goto("/market");
     await expect(page.getByLabel(t("Select crop"))).toHaveValue("Ragi");

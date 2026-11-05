@@ -1,10 +1,22 @@
 import type { Farm, Scheme } from "@/types";
-/** Percent confidences are 0–100. Map each project model's response at the adapter boundary. */
-export type DiseaseModelOutput = {
+/** Percent confidences are 0–100 unless a type explicitly says otherwise. */
+export type FruitDiseaseCandidate = {
+  label: string;
   crop: string;
   condition: string;
   confidence: number;
+};
+export type DiseaseModelOutput = {
+  modelVersion: string;
+  researchOnly: true;
+  status: "candidate_found" | "uncertain" | "crop_mismatch";
+  expectedCrop: string;
+  prediction: FruitDiseaseCandidate | null;
+  candidates: FruitDiseaseCandidate[];
+  confidenceThreshold: number;
+  uncertaintyReason: string | null;
   recommendation: string;
+  disclaimer: string;
 };
 export type ThreatModelOutput = {
   id: string;
@@ -18,7 +30,7 @@ export type SchemeModelOutput = {
   sources: string[];
 };
 export interface ProjectModelAdapters {
-  disease: (image: File, farm: Farm) => Promise<DiseaseModelOutput>;
+  disease: (image: File, expectedCrop: string) => Promise<DiseaseModelOutput>;
   threat: (
     readings: Record<string, number | string>,
     farm: Farm,

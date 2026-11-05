@@ -25,7 +25,7 @@ async function mockWorker(
       onerror?: () => void;
       constructor(url: string, options: WorkerOptions) {
         if (url !== "/speech-worker.js")
-          return new OriginalWorker(url, options);
+          return new OriginalWorker(url, options) as any;
       }
       postMessage(data: any) {
         w.capturedSpeech = {
