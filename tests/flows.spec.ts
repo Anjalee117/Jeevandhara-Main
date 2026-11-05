@@ -30,7 +30,7 @@ test("voice query detects crop intent and routes to analysis", async ({
   await expect(page.getByText("Crop Advisory", { exact: true })).toBeVisible();
   await page.getByRole("link", { name: "ANALYZE CROP" }).click();
   await expect(
-    page.getByRole("heading", { name: "Tomato image analysis" }),
+    page.getByRole("heading", { name: "Fruit plant image analysis" }),
   ).toBeVisible();
 });
 test("farm changes persist and update connected modules", async ({ page }) => {
@@ -77,7 +77,43 @@ test("schemes search filters eligibility and explanation", async ({ page }) => {
   await expect(page.getByRole("dialog")).toContainText("Farm size");
 });
 test("crop upload preview analysis creates action", async ({ page }) => {
+  await page.route("**/api/crop-health", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({
+        model_version: "public-fruit-v1",
+        research_only: true,
+        status: "candidate_found",
+        uncertainty_reason: null,
+        prediction: {
+          label: "apple__black_rot",
+          crop: "apple",
+          condition: "black_rot",
+          confidence: 0.921,
+        },
+        candidates: [
+          {
+            label: "apple__black_rot",
+            crop: "apple",
+            condition: "black_rot",
+            confidence: 0.921,
+          },
+          {
+            label: "apple__healthy",
+            crop: "apple",
+            condition: "healthy",
+            confidence: 0.051,
+          },
+        ],
+        confidence_threshold: 0.505,
+        disclaimer:
+          "Research result only. Do not apply treatment without expert review.",
+      }),
+    });
+  });
   await page.goto("/crop-health");
+  await page.getByLabel("Plant shown in photo").selectOption("Apple");
   await page.getByLabel("Upload crop image").setInputFiles({
     name: "leaf.png",
     mimeType: "image/png",
@@ -88,14 +124,13 @@ test("crop upload preview analysis creates action", async ({ page }) => {
   });
   await expect(page.getByAltText("Uploaded crop preview")).toBeVisible();
   await page.getByRole("button", { name: "ANALYZE CROP", exact: true }).click();
-  await expect(
-    page.getByRole("heading", { name: "Possible Early Blight (illustrative)" }),
-  ).toBeVisible();
-  await page.getByRole("button", { name: "CREATE ACTION" }).click();
+  await expect(page.getByRole("heading", { name: "Black Rot" })).toBeVisible();
+  await expect(page.getByText("Calibrated confidence: 92.1%")).toBeVisible();
+  await page.getByRole("button", { name: "CREATE INSPECTION ACTION" }).click();
   await page.goto("/actions");
   await page.getByRole("button", { name: "TODAY", exact: true }).click();
   await expect(
-    page.getByRole("heading", { name: "Inspect Tomato for crop stress" }),
+    page.getByRole("heading", { name: "Inspect Apple for Black Rot" }),
   ).toBeVisible();
 });
 test("sensor simulation changes and alert acknowledges to history", async ({

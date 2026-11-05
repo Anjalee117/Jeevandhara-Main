@@ -845,6 +845,13 @@ svg {
 .evidence p:last-child {
   margin-bottom: 0;
 }
+.model-candidates {
+  margin: 12px 0;
+  padding-left: 22px;
+}
+.model-candidates li {
+  margin: 7px 0;
+}
 .muted {
   color: var(--muted);
   font-size: max(var(--text-min, 0px), calc(11px * var(--text-scale, 1)));
