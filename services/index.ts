@@ -241,18 +241,61 @@ export const actionPlannerService = {
   },
 };
 export const cropHealthService = {
-  async analyzeImage(file: File, farm: Farm): Promise<DiseaseModelOutput> {
+  async analyzeImage(
+    file: File,
+    expectedCrop: string,
+  ): Promise<DiseaseModelOutput> {
     if (!file.type.startsWith("image/") || file.size > 10 * 1024 * 1024)
       throw new Error("Upload an image smaller than 10 MB.");
-    await wait();
+    const form = new FormData();
+    form.set("file", file, file.name);
+    const response = await fetch("/api/crop-health", {
+      method: "POST",
+      body: form,
+    });
+    const body = await response.json().catch(() => null);
+    if (!response.ok) {
+      throw new Error(
+        body?.detail || "Crop analysis failed. Please try again.",
+      );
+    }
+
+    const candidates = (body.candidates ?? []).map(
+      (candidate: {
+        label: string;
+        crop: string;
+        condition: string;
+        confidence: number;
+      }) => ({
+        ...candidate,
+        confidence: Math.round(candidate.confidence * 1000) / 10,
+      }),
+    );
+    const prediction = body.prediction
+      ? {
+          ...body.prediction,
+          confidence: Math.round(body.prediction.confidence * 1000) / 10,
+        }
+      : null;
+    const cropMismatch =
+      prediction &&
+      prediction.crop.toLowerCase() !== expectedCrop.toLowerCase();
     return {
-      crop: farm.crop,
-      condition:
-        farm.crop === "Tomato"
-          ? "Possible Early Blight (illustrative)"
-          : "Possible leaf stress (illustrative)",
-      confidence: 87,
-      recommendation: `Inspect nearby ${farm.crop.toLowerCase()} plants and monitor changes. This fixed demo result does not diagnose the uploaded image.`,
+      modelVersion: body.model_version,
+      researchOnly: true,
+      status: cropMismatch ? "crop_mismatch" : body.status,
+      expectedCrop,
+      prediction: cropMismatch ? null : prediction,
+      candidates,
+      confidenceThreshold: Math.round(body.confidence_threshold * 1000) / 10,
+      uncertaintyReason: cropMismatch
+        ? `The model's top candidate was ${prediction.crop}, not the selected ${expectedCrop}.`
+        : body.uncertainty_reason,
+      recommendation:
+        "Inspect nearby plants and photograph both sides of several leaves in natural light. Ask a local agricultural expert before treatment.",
+      disclaimer:
+        body.disclaimer ||
+        "Research result only. Do not apply treatment or pesticide decisions without local expert review.",
     };
   },
 };

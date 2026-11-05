@@ -25,7 +25,7 @@ Suggested description for the GitHub repository's **About** field:
 | Government Schemes       | Search, crop/state/size/category/irrigation filters, deterministic eligibility and explanations.                                                            |
 | Crop Health              | Image selection or drag/drop, preview, removal, validation, mock analysis and action creation.                                                              |
 | Market Intelligence      | Crop selector, interactive price chart, market comparison and illustrative price/distance recommendations.                                                  |
-| Weather Intelligence     | Live farm-location forecast, device location, manual phone readings, weather alerts and weather-based actions.                                                                              |
+| Weather Intelligence     | Live farm-location forecast, device location, manual phone readings, weather alerts and weather-based actions.                                              |
 | Threat Monitor           | Seven simulated devices, live reading updates, event generation, alert acknowledgement and history.                                                         |
 | Action Planner           | Now/today/this-week views, decision factors, completion history and persisted 24-hour snoozes.                                                              |
 | Knowledge Library        | Keyword and category search, relevance scores and source document inspection.                                                                               |
@@ -144,13 +144,36 @@ flowchart TD
 
 The frontend calls service methods instead of directly reading mock catalogs. `services/index.ts` exposes `voiceService`, `farmerService`, `schemeService`, `cropHealthService`, `marketService`, `weatherService`, `threatService`, `actionPlannerService`, `knowledgeService`, `notificationService`, `iotService` and `systemService`.
 
+### Fruit disease model integration
+
+The crop-health screen now calls the separately deployed `public-fruit-v1` FastAPI service through the same-origin Next.js route at `/api/crop-health`. The proxy keeps the model URL server-side and avoids browser CORS configuration. It validates uploads before forwarding them to the model.
+
+For local development:
+
+1. Start the model API from the model repository:
+
+   ```powershell
+   python -m uvicorn tools.fruit_api:app --host 127.0.0.1 --port 8002
+   ```
+
+2. Copy `.env.example` to `.env.local`. The default value points to `http://127.0.0.1:8002`.
+3. Start this frontend with `npm run dev`.
+
+For Vercel, deploy the model API to a separate HTTPS service and set the frontend project's server-side environment variable:
+
+```text
+CROP_HEALTH_API_URL=https://your-model-api.example.com
+```
+
+The current model supports Apple, Banana, Blueberry, Cherry, Grape, Peach, and Strawberry across 24 crop-condition classes. The UI rejects low-confidence results and crop mismatches, shows the top three candidates, and never generates treatment or pesticide instructions. It is research-only because its training data includes non-commercially licensed PlantWild data. Do not use it for commercial deployment or treatment decisions without replacing/relicensing that data and completing field validation.
+
 For future integrations, replace the service implementations behind their existing contracts with real API clients. `StateRepository` in `lib/storage.ts` provides the boundary for replacing local storage with an authenticated database. Production scheme eligibility should continue to use structured, auditable rules.
 
 ## Data and demo limitations
 
 - **Storage:** Farm profile, language, saved actions, notifications, events, interactions and settings use `localStorage` under `jeevandhara-v1`. Data belongs to this browser and origin; it does not sync between devices. A new hosted URL starts with its own demo state.
 - **Voice:** Device transcription is the default: browser microphone capture → recorded playback → 16 kHz mono audio → a dedicated Web Worker running multilingual Whisper Base → transcript → local intent analysis. Audio stays on the device. The first use downloads model files from Hugging Face and WASM from jsDelivr; later uses can reuse the browser cache. Short recordings stop automatically after 20 seconds. Accuracy depends on language, audio and the small model. The optional browser speech service provides interim transcription; a service/network failure switches to device transcription for the next recording. Tap the microphone and allow browser access. In browser speech mode, interim words appear in the question field. Device mode returns text after recording stops. Both final transcripts automatically run the intent demo. Permission, missing microphone, silence and network failures offer retry guidance. The separately labelled sample intent demo works without microphone access. Speech recognition depends on browser support and may use a browser-provider network service. Microphone access requires HTTPS or localhost. A typed fallback is available. Interface labels, descriptions and built-in demo results are translated into Hindi and Kannada. Farmer-entered text, uploaded filenames and hardware identifiers retain their original values.
-- **Crop analysis:** Uploads are validated and previewed, but pixels are not classified. The crop-aware analysis response and confidence are fixed demo outputs.
+- **Crop analysis:** When `CROP_HEALTH_API_URL` is configured, uploads are classified by the calibrated `public-fruit-v1` research API. It was evaluated on public datasets, not on Jeevandhara farm captures. Unsupported crops, field-image shift, poor image quality and weak classes can cause incorrect results. Low-confidence and selected-crop mismatch results are rejected. No treatment recommendation is produced.
 - **Schemes and knowledge:** Catalog entries, criteria, deadlines and source documents are illustrative, not official government information or a connected RAG system.
 - **Market:** Prices and distances remain demo data. Market distances are not calculated from the farmer's actual location.
 - **Weather:** Live data comes from Open-Meteo (with attribution), using saved farm location or explicitly allowed device location. The demo district uses approximate coordinates, not a farm boundary. Readings are cached for 15 minutes; active weather views refresh periodically. Manual phone readings persist per farm location and carry their entry timestamp. A browser cannot read a separate phone weather app. Manual readings do not fabricate daily forecasts. Offline sample values are identified as sample weather. Weather alerts and planner suggestions use the current shared reading. IMD/government forecast feeds can later replace the weather-service adapter.
@@ -168,22 +191,22 @@ Vercel is a straightforward option for this Next.js application. It detects Next
 3. Connect GitHub, grant access to `Anjalee117/Jeevandhara-Main`, and import the repository.
 4. Confirm these settings:
 
-   | Setting               | Value                                       |
-   | --------------------- | ------------------------------------------- |
-   | Framework preset      | Next.js                                     |
-   | Root directory        | Repository root (`./`)                      |
-   | Node.js version       | 22.x                                        |
-   | Install command       | `npm ci`                                    |
-   | Build command         | `npm run build`                             |
-   | Output directory      | Leave the Next.js default; do not set `out` |
-   | Environment variables | None required for demo mode                 |
-   | Production branch     | `main`                                      |
+   | Setting               | Value                                        |
+   | --------------------- | -------------------------------------------- |
+   | Framework preset      | Next.js                                      |
+   | Root directory        | Repository root (`./`)                       |
+   | Node.js version       | 22.x                                         |
+   | Install command       | `npm ci`                                     |
+   | Build command         | `npm run build`                              |
+   | Output directory      | Leave the Next.js default; do not set `out`  |
+   | Environment variables | `CROP_HEALTH_API_URL` for real crop analysis |
+   | Production branch     | `main`                                       |
 
 5. Select **Deploy**. When the build succeeds, open the generated HTTPS URL.
 6. Test `/dashboard`, a saved farm update, image upload and sensor simulation. Test microphone permission in a supported browser.
 7. Future commits to the configured production branch trigger deployments through the Git integration.
 
-No separate backend, database or IoT server is needed to host this demo. Vercel handles the application runtime; you do not configure `npm start` as a separate Vercel service.
+The other demo modules need no separate backend, database or IoT server. Real crop analysis does require the separately hosted FastAPI model service configured above. Vercel handles the Next.js application runtime; you do not configure `npm start` as a separate Vercel service.
 
 **Commit author note:** The initial local commit was authored as `Codex` because no user Git identity was configured. Vercel can enforce commit-author access requirements, especially for team projects. If deployment is rejected for an author/access mismatch, configure your own Git name and verified GitHub email, make the documentation commit under that identity, push it, and deploy that commit. See [Vercel's Git access requirements](https://vercel.com/docs/git).
 
